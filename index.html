@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portal PE Integrado</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   BODY
+========================= */
+body{
+    background: linear-gradient(135deg,#003cb3,#005eff);
+    min-height:100vh;
+    color:#fff;
+}
+
+/* =========================
+   HEADER
+========================= */
+header{
+    width:100%;
+    background:#fff;
+    padding:30px 60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between; /* LOGOS NAS PONTAS E CENTRO */
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   LOGOS
+========================= */
+.logo-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex:1;
+}
+
+/* LOGO ESQUERDA */
+.logo-box:first-child{
+    justify-content:flex-start;
+}
+
+/* LOGO CENTRO */
+.logo-box:nth-child(2){
+    justify-content:center;
+}
+
+/* LOGO DIREITA */
+.logo-box:last-child{
+    justify-content:flex-end;
+}
+
+/* TAMANHO DAS IMAGENS */
+.logo-box img{
+    width:220px; /* AUMENTADO */
+    max-width:100%;
+    object-fit:contain;
+
+    transition:0.3s;
+}
+
+.logo-box img:hover{
+    transform:scale(1.05);
+}
+
+/* AUMENTAR APENAS A LOGO CREDENCIA */
+.logo-boxi:last-child img{
+    width:320px;
+}
+
+/* =========================
+   BARRA DE PESQUISA
+========================= */
+.search-box{
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px 18px;
+
+    border:none;
+    border-radius:12px;
+
+    background:#f4f7ff;
+
+    font-size:16px;
+    outline:none;
+
+    border:2px solid transparent;
+
+    transition:0.3s;
+}
+
+.search-box input:focus{
+    border:2px solid #0047d4;
+    background:#fff;
+    box-shadow:0 0 10px rgba(0,71,212,0.2);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media(max-width:768px){
+
+    header{
+        flex-direction:column;
+        gap:30px;
+        padding:20px;
+    }
+
+    .logo-box,
+    .logo-box:first-child,
+    .logo-box:nth-child(2),
+    .logo-box:last-child{
+        justify-content:center;
+    }
+
+    .logo-box img{
+        width:170px;
+    }
+
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container{
+    width:90%;
+    margin:auto;
+    padding:40px 0;
+}
+
+/* =========================
+   CARDS
+========================= */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#fff;
+    border-radius:20px;
+    padding:40px 20px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.3s;
+    position:relative;
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+.card img{
+    width:90px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    color:#003cb3;
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.linha{
+    width:80px;
+    height:5px;
+    background:#005eff;
+    border-radius:10px;
+    margin:auto;
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.modal-content{
+    width:500px;
+    max-width:95%;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    animation:animar 0.3s ease;
+}
+
+@keyframes animar{
+    from{
+        transform:scale(0.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.modal-header{
+    background:#0047d4;
+    color:#fff;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h2{
+    font-size:24px;
+}
+
+.fechar{
+    font-size:30px;
+    cursor:pointer;
+}
+
+.modal-body{
+    padding:20px;
+    max-height:400px;
+    overflow-y:auto;
+}
+
+.link-item{
+    background:#f4f7ff;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    transition:0.3s;
+}
+
+.link-item:hover{
+    background:#dfe9ff;
+}
+
+.link-item a{
+    text-decoration:none;
+    color:#003cb3;
+    font-weight:bold;
+    word-break:break-all;
+}
+
+.link-item p{
+    color:#222;
+    margin-bottom:5px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media(max-width:768px){
+
+    header{
+        justify-content:center;
+        gap:25px;
+        text-align:center;
+    }
+
+    .logo-box{
+        flex-direction:column;
+        
+    }
+
+    .card h3{
+        font-size:22px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+<header>
+
+    <div class="logo-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s">
+    </div>
+
+    <div class="logo-boxi">
+        <img src="https://www.peintegrado.pe.gov.br/portal/imagens/marca.png">
+    </div>
+
+    <div class="logo-box">
+        <img src="https://credencia.pe.gov.br/web/image/website/1/social_default_image?unique=d0f8554">
+    </div>
+
+</header>
+
+<!-- =========================
+     CONTAINER
+========================= -->
+<div class="container">
+
+    <div class="cards">
+
+        <!-- CARD 1 -->
+        <div class="card" onclick="abrirModal('reunioes')">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968552.png">
+            <h3>LINKS DE REUNIÕES</h3>
+            <div class="linha"></div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card" onclick="abrirModal('planilhas')">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png">
+            <h3>LINKS DE PLANILHAS</h3>
+            <div class="linha"></div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card" onclick="abrirModal('ticket')">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968875.png">
+            <h3>TICKETS - SICX</h3>
+            <div class="linha"></div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card" onclick="abrirModal('apresentacoes')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3131/3131631.png">
+            <h3>APRESENTAÇÕES</h3>
+            <div class="linha"></div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="card" onclick="abrirModal('prototipo')">
+            <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
+            <h3>PROTÓTIPOS</h3>
+            <div class="linha"></div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="card" onclick="abrirModal('homologacao')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png">
+            <h3>AMBIENTE DE HOMOLOGAÇÕES - PERFIS</h3>
+            <div class="linha"></div>
+        </div>
+
+        <!-- CARD 7 -->
+        <div class="card" onclick="abrirModal('gravacao')">
+            <img src="https://cdn-icons-png.flaticon.com/512/4315/4315744.png">
+            <h3>GRAVAÇÕES DE REUNIÕES</h3>
+            <div class="linha"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     MODAL
+========================= -->
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="tituloModal">Links</h2>
+            <span class="fechar" onclick="fecharModal()">&times;</span>
+        </div>
+
+        <div class="modal-body" id="conteudoModal">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+   DADOS DOS LINKS
+========================= */
+
+const dados = {
+
+    reunioes: {
+        titulo: "Links de Reuniões",
+        links: [
+            {
+                nome: "Reunião Daily (Squad Ariano Suassuna)",
+                url: "https://meet.google.com/xox-cney-gni?authuser=0"
+            },
+            
+            {
+                nome: "Reunião Daily (PO)",
+                url: "https://meet.google.com/naj-azhe-wfe"
+            },
+            
+            {
+                nome: "Credência-PE (Reunião de Gestão)",
+                url: "https://meet.google.com/ofn-bnjh-exe"
+            },
+
+              {
+                nome: "Reunião de Extras - Credência PE)",
+                url: "https://meet.google.com/yyo-ovrw-jjv"
+            },
+            
+
+        ]
+    },
+
+    planilhas: {
+        titulo: "Planilhas",
+        links: [
+            {
+                nome: "Controle de Solicitações Credencia-PE",
+                url: "https://docs.google.com/spreadsheets/d/1LEPw5eiCiehcD4tVFP_2FqhhjCuaE5HJusS63jDhfMo/edit?gid=1878358193#gid=1878358193"
+            },
+            {
+                nome: "Planilha de atividade da Qintess",
+                url: "https://docs.google.com/spreadsheets/d/1gKrtLH7q8Gy8Ha_YdnPNW-Bz5u-P8lZJPWZ12RbuIgM/edit?gid=307462257#gid=307462257"
+            }
+        ]
+    },
+
+    ticket: {
+        titulo: "Tickets Jira",
+        links: [
+            {
+                nome: "Ticket principal para análise de viabilidade técnica do SICX",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-171"
+            },
+            {
+                nome: "Tickets - MVP 1 Versão 1.0 (Catálogo)",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-212"
+            },
+
+            {
+                nome:"Tickets - MVP 1 Versão 1.0 (Cadastro da Classificação)",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-213"
+            },
+
+            {
+                nome:"Tickets - MVP 1 Versão 1.0 (Cadastro de Itens)",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-214"
+            },
+
+            {
+                nome:"Tickets - MVP 1 Versão 1.0 (Cadastro do Edital)",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-215"
+            },
+
+                        {
+                nome:"Tickets - MVP 1 Versão 1.0 (Credenciamento)",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-216"
+            },
+
+                        {
+                nome:"Tickets - MVP 1 Versão 1.0 (Cotação)",
+                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-217"
+            }
+        ]
+    },
+
+    apresentacoes: {
+        titulo: "Apresentações",
+        links: [
+
+             {
+                nome: "Apresentação do Requisitos SICX versão 1.0 ",
+                url: "https://docs.google.com/presentation/d/1ZOrmdjcc6dD1arqPxj3aG8GesNXIp-IE/edit?slide=id.p1#slide=id.p1"
+            },
+
+                        {
+                nome: "Apresentação do Requisitos SICX versão 1.1 ",
+                url: "https://docs.google.com/presentation/d/1XKoix0nc65wzvXGlJ_qTqTHfyeFkjQKd/edit?usp=sharing&ouid=115848030807479571058&rtpof=true&sd=true"
+            }
+        ]
+    },
+
+    prototipo: {
+        titulo: "Protótipos",
+        links: [
+            {
+                nome: "1º Protótipo Credencia Completo: (Área pública, SICX, PCA/DFD, Fase Preliminar e Painéis)",
+                url: "https://prototipo-credencia-completo.lovable.app/home"
+            },
+            
+            {
+                nome: "2º Protótipo Portal SICX:",
+                url: " https://prototipoinicial-sicx-govpe.lovable.app/login"
+            },
+
+                        {
+                nome: "3º Protótipo Versão da Imersão SICX:",
+                url: "https://prototipopaineiscredencia.lovable.app/sicx/editais"
+            },
+
+                        {
+                nome: "4º Protótipo PE Integrado + Credencia PE (Resultados): (Após espelhamento, caso o valor consumido precise de construção de telas no PE Integrado)",
+                url: "https://telainicialintegracaocredenciapei.lovable.app/"
+            },
+
+                        {
+                nome: "5º Protótipo Portal do Fornecedor:",
+                url: "https://stitch.withgoogle.com/preview/11162548969088077988?node-id=0bb1e4767b284de5bca2fd6e068fe95f&raw=1"
+            },
+
+             {
+                nome: "6º protótipo Credencial:",
+                url: "https://paginacredenciamento.netlify.app/"
+            },
+            
+
+            {
+                nome: "7º protótipo Credencial:",
+                url: "https://region-filter-magic.lovable.app/"
+            },
+
+        ]
+    },
+
+    homologacao: {
+        titulo: "Ambiente de Homologação",
+        links: [
+            {
+                nome: "Credencia PE",
+                url: "https://homologcredencia.pe.gov.br/ "
+            },
+
+            {
+                nome: "PE Integrado",
+                url: "https://www.homolog02.peintegrado.pe.gov.br/"
+            },
+
+            {
+                nome: "PE Integrado (Pré-subida)",
+                url: "https://www.homologpeintegrado.pe.gov.br/"
+            },
+
+        ]
+    },
+
+    gravacao: {
+        titulo: "Gravações",
+        links: [
+
+            {
+                nome: "Reunião Gestão  2026-05-15",
+                url: "https://drive.google.com/file/d/1bEs3wypDvsfswupk7kmBrE26BC3Agex5/view?usp=sharing"
+            },
+
+            {
+                nome: "Reunião Gestão  2026-05-22",
+                url:"https://drive.google.com/file/d/1KAWgIby8xdJs-2bCsp8Fh_yW2c5gazy9/view?usp=sharing"
+            },
+
+            {
+                nome: "Reunião Demonstração da Versão 1.1 2026-05-22",
+                url:"https://drive.google.com/file/d/1BJjRMVJwq_SN5tLJ6vy4CCx06wEKO3pu/view?usp=sharing"
+            },
+
+            {
+                nome: "Reunião Gestão 2026-05-29",
+                url:"https://drive.google.com/file/d/13Bz-iSPsVHxTihphjGWZWRT_Wa0WuFrX/view?usp=sharing"
+            }
+        ]
+    }   
+    };
+
+
+
+/* =========================
+   ABRIR MODAL
+========================= */
+
+function abrirModal(tipo){
+
+    const modal = document.getElementById("modal");
+    const titulo = document.getElementById("tituloModal");
+    const conteudo = document.getElementById("conteudoModal");
+
+    titulo.innerHTML = dados[tipo].titulo;
+
+    conteudo.innerHTML = "";
+
+    /* =====================================
+       ADICIONA BARRA DE BUSCA NO TICKET
+    ===================================== */
+    if(tipo === "ticket"){
+
+        conteudo.innerHTML += `
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="buscarTicket"
+                    placeholder="Buscar ticket..."
+                    onkeyup="filtrarTickets()"
+                >
+            </div>
+
+            <div id="listaTickets"></div>
+        `;
+
+        const listaTickets = document.getElementById("listaTickets");
+
+        dados[tipo].links.forEach(link => {
+
+            listaTickets.innerHTML += `
+                <div class="link-item">
+                    <p>${link.nome}</p>
+
+                    <a href="${link.url}" target="_blank">
+                        ${link.url}
+                    </a>
+                </div>
+            `;
+
+        });
+
+    }else{
+
+        dados[tipo].links.forEach(link => {
+
+            conteudo.innerHTML += `
+                <div class="link-item">
+                    <p>${link.nome}</p>
+
+                    <a href="${link.url}" target="_blank">
+                        ${link.url}
+                    </a>
+                </div>
+            `;
+
+        });
+
+    }
+
+    modal.style.display = "flex";
+}
+
+/* =========================
+   FILTRAR TICKETS
+========================= */
+
+function filtrarTickets(){
+
+    const input = document.getElementById("buscarTicket");
+    const filtro = input.value.toLowerCase();
+
+    const itens = document.querySelectorAll("#listaTickets .link-item");
+
+    itens.forEach(item => {
+
+        const texto = item.innerText.toLowerCase();
+
+        if(texto.includes(filtro)){
+            item.style.display = "block";
+        }else{
+            item.style.display = "none";
+        }
+
+    });
+
+}
+
+/* =========================
+   FECHAR MODAL
+========================= */
+
+function fecharModal(){
+    document.getElementById("modal").style.display = "none";
+}
+
+/* =========================
+   FECHAR AO CLICAR FORA
+========================= */
+
+window.onclick = function(event){
+
+    const modal = document.getElementById("modal");
+
+    if(event.target == modal){
+        modal.style.display = "none";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
