@@ -14,14 +14,14 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 /* =========================
    BODY
 ========================= */
 body{
-    background: linear-gradient(135deg,#003cb3,#005eff);
+    background:linear-gradient(135deg,#003cb3,#005eff);
     min-height:100vh;
     color:#fff;
 }
@@ -32,7 +32,7 @@ body{
 header{
     width:100%;
     background:#fff;
-    padding:30px 60px;
+    padding:42px 64px;
 
     display:flex;
     align-items:center;
@@ -44,7 +44,8 @@ header{
 /* =========================
    LOGOS
 ========================= */
-.logo-box{
+.logo-box,
+.logo-boxi{
     display:flex;
     align-items:center;
     justify-content:center;
@@ -62,27 +63,33 @@ header{
     justify-content:center;
 }
 
+.logo-boxi{
+    justify-content:center;
+}
+
 /* LOGO DIREITA */
 .logo-box:last-child{
     justify-content:flex-end;
 }
 
 /* TAMANHO DAS IMAGENS */
-.logo-box img{
-    width:220px; /* AUMENTADO */
+.logo-box img,
+.logo-boxi img{
+    width:170px;
     max-width:100%;
     object-fit:contain;
 
     transition:0.3s;
 }
 
-.logo-box img:hover{
+.logo-box img:hover,
+.logo-boxi img:hover{
     transform:scale(1.05);
 }
 
-/* AUMENTAR APENAS A LOGO CREDENCIA */
-.logo-boxi:last-child img{
-    width:320px;
+/* AUMENTAR APENAS A LOGO PE INTEGRADO */
+.logo-boxi img{
+    width:150px;
 }
 
 /* =========================
@@ -90,20 +97,20 @@ header{
 ========================= */
 .squad-title {
     text-align: center;
-    margin: 40px 0 20px 0;
+    margin:40px 0 42px 0;
 }
 
 .squad-title h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #ffffff;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    background: rgba(0,0,0,0.1);
-    display: inline-block;
-    padding: 0 20px 10px 20px;
-    border-bottom: 4px solid #ffcc00;
-    border-radius: 2px;
+    font-size:2.35rem;
+    font-weight:800;
+    letter-spacing:6px;
+    color:#fff;
+    display:inline-block;
+    padding:8px 18px 12px;
+    border-bottom:4px solid #f2c94c;
+    border-radius:2px;
+    background:rgba(0,45,150,0.28);
+    text-shadow:0 3px 8px rgba(0,0,0,0.25);
 }
 
 @media (max-width: 768px) {
@@ -116,30 +123,27 @@ header{
    BARRA DE PESQUISA
 ========================= */
 .search-box{
-    margin-bottom:20px;
+    margin-bottom:14px;
 }
 
 .search-box input{
     width:100%;
-    padding:14px 18px;
+    padding:12px 14px;
 
-    border:none;
-    border-radius:12px;
+    border:1px solid #d8e2f3;
+    border-radius:8px;
 
-    background:#f4f7ff;
+    background:#fff;
 
-    font-size:16px;
+    font-size:15px;
     outline:none;
 
-    border:2px solid transparent;
-
-    transition:0.3s;
+    transition:0.2s ease;
 }
 
 .search-box input:focus{
-    border:2px solid #0047d4;
-    background:#fff;
-    box-shadow:0 0 10px rgba(0,71,212,0.2);
+    border-color:#0b57d0;
+    box-shadow:0 0 0 3px rgba(11,87,208,0.12);
 }
 
 /* =========================
@@ -154,14 +158,17 @@ header{
     }
 
     .logo-box,
+    .logo-boxi,
     .logo-box:first-child,
     .logo-box:nth-child(2),
     .logo-box:last-child{
         justify-content:center;
     }
 
-    .logo-box img{
-        width:170px;
+    .logo-box img,
+    .logo-boxi img{
+        width:190px;
+        height:50px;
     }
 
 }
@@ -172,7 +179,7 @@ header{
 .container{
     width:90%;
     margin:auto;
-    padding:40px 0;
+    padding:0 0 54px;
 }
 
 /* =========================
@@ -180,19 +187,25 @@ header{
 ========================= */
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:22px;
 }
 
 .card{
     background:#fff;
-    border-radius:20px;
-    padding:40px 20px;
+    border:none;
+    border-radius:14px;
+    min-height:242px;
+    padding:32px 16px;
     text-align:center;
     cursor:pointer;
     transition:0.3s;
     position:relative;
     overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 }
 
 .card:hover{
@@ -201,21 +214,30 @@ header{
 }
 
 .card img{
-    width:90px;
-    margin-bottom:20px;
+    width:68px;
+    height:68px;
+    object-fit:contain;
+    padding:0;
+    margin-bottom:22px;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    transition:0.3s;
 }
 
 .card h3{
     color:#003cb3;
-    font-size:28px;
-    margin-bottom:15px;
+    font-size:23px;
+    font-weight:700;
+    line-height:1.15;
+    margin-bottom:16px;
 }
 
 .linha{
-    width:80px;
-    height:5px;
+    width:62px;
+    height:3px;
     background:#005eff;
-    border-radius:10px;
+    border-radius:999px;
     margin:auto;
 }
 
@@ -225,20 +247,24 @@ header{
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.5);
+    background:rgba(6,23,52,0.58);
     display:none;
     justify-content:center;
     align-items:center;
     z-index:999;
+    padding:16px;
+    backdrop-filter:blur(6px);
 }
 
 .modal-content{
-    width:500px;
-    max-width:95%;
+    width:620px;
+    max-width:100%;
     background:#fff;
-    border-radius:20px;
+    border-radius:12px;
     overflow:hidden;
     animation:animar 0.3s ease;
+    border:1px solid rgba(255,255,255,0.22);
+    box-shadow:0 28px 70px rgba(15,23,42,0.34);
 }
 
 @keyframes animar{
@@ -253,51 +279,80 @@ header{
 }
 
 .modal-header{
-    background:#0047d4;
+    background:linear-gradient(135deg,#073b8e,#0b57d0);
     color:#fff;
-    padding:20px;
+    padding:20px 24px;
     display:flex;
     justify-content:space-between;
     align-items:center;
+    border-bottom:4px solid #f2c94c;
 }
 
 .modal-header h2{
+    font-family:"Lexend","Source Sans 3",Arial,sans-serif;
     font-size:24px;
+    line-height:1.2;
+    letter-spacing:0;
 }
 
 .fechar{
-    font-size:30px;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    background:rgba(255,255,255,0.10);
+    color:#fff;
+    font-size:28px;
+    line-height:1;
     cursor:pointer;
+    transition:0.2s ease;
+}
+
+.fechar:hover{
+    background:rgba(255,255,255,0.20);
 }
 
 .modal-body{
-    padding:20px;
-    max-height:400px;
+    padding:22px 24px 24px;
+    max-height:min(74vh,610px);
     overflow-y:auto;
+    background:linear-gradient(180deg,#f8fbff,#edf4fb);
 }
 
 .link-item{
-    background:#f4f7ff;
-    border-radius:12px;
-    padding:15px;
-    margin-bottom:15px;
-    transition:0.3s;
+    position:relative;
+    background:linear-gradient(180deg,#ffffff,#fbfdff);
+    border:1px solid #dfe8f6;
+    border-left:4px solid #0b57d0;
+    border-radius:8px;
+    padding:15px 46px 15px 16px;
+    margin-bottom:12px;
+    transition:0.2s ease;
 }
 
 .link-item:hover{
-    background:#dfe9ff;
+    border-color:#a9bfdf;
+    border-left-color:#f2c94c;
+    box-shadow:0 12px 24px rgba(15,23,42,0.08);
 }
 
 .link-item a{
     text-decoration:none;
-    color:#003cb3;
-    font-weight:bold;
+    color:#0644a8;
+    font-weight:700;
+    font-size:14px;
     word-break:break-all;
 }
 
 .link-item p{
-    color:#222;
-    margin-bottom:5px;
+    color:#1f2937;
+    margin-bottom:6px;
+    line-height:1.4;
+    font-size:16px;
+    font-weight:600;
 }
 
 /* =========================
@@ -307,22 +362,185 @@ header{
 
     header{
         justify-content:center;
-        gap:25px;
+        gap:18px;
         text-align:center;
     }
 
-    .logo-box{
-        flex-direction:column;
-        
+    .logo-box,
+    .logo-boxi:last-child img{
+    width:320px;
     }
 
     .card h3{
-        font-size:22px;
+        font-size:18px;
     }
 
 }
 
+@media(max-width:560px){
+    .squad-title{
+        margin:32px 16px 16px;
+    }
+
+    .squad-title h1{
+        padding:9px 14px 12px;
+    }
+
+    .container{
+        width:92%;
+        padding-top:28px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+        gap:16px;
+    }
+
+    .modal{
+        padding:10px;
+    }
+
+    .modal-header{
+        padding:18px;
+    }
+
+    .modal-header h2{
+        font-size:21px;
+    }
+
+    .modal-body{
+        padding:18px;
+        max-height:76vh;
+    }
+}
+
+
+
+/* =========================
+   FORMULÁRIO ADMIN / SUPABASE
+========================= */
+.form-link{
+    background:linear-gradient(180deg,#eef5ff,#e6efff);
+    border:1px solid #9bbcff;
+    border-radius:8px;
+    padding:18px;
+    margin-top:22px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.70),0 12px 26px rgba(11,87,208,0.08);
+}
+
+.form-link h4{
+    color:#063f9f;
+    margin-bottom:14px;
+    font-family:"Lexend","Source Sans 3",Arial,sans-serif;
+    font-size:19px;
+}
+
+.form-link input{
+    width:100%;
+    padding:13px 15px;
+    margin-bottom:11px;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    outline:none;
+    font-size:16px;
+    background:#fff;
+    color:#222;
+    transition:0.2s ease;
+}
+
+.form-link input:focus{
+    border-color:#0b57d0;
+    box-shadow:0 0 0 3px rgba(11,87,208,0.12);
+}
+
+.btn-adicionar{
+    width:100%;
+    border:none;
+    background:linear-gradient(135deg,#0b57d0,#07439d);
+    color:#fff;
+    padding:13px 15px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.2s ease;
+    box-shadow:0 10px 22px rgba(11,87,208,0.22);
+}
+
+.btn-adicionar:hover{
+    transform:translateY(-1px);
+    box-shadow:0 14px 26px rgba(11,87,208,0.28);
+}
+
+.link-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.link-topo p{
+    flex:1;
+}
+
+.btn-deletar{
+    border:none;
+    background:transparent;
+    color:#64748b;
+    width:28px;
+    height:28px;
+    padding:0;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:22px;
+    line-height:1;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:absolute;
+    top:10px;
+    right:10px;
+    transition:0.2s ease;
+}
+
+.btn-deletar:hover{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.card:focus-visible,
+.btn-adicionar:focus-visible,
+.btn-deletar:focus-visible,
+.fechar:focus-visible,
+.link-item a:focus-visible{
+    outline:3px solid rgba(242,201,76,0.95);
+    outline-offset:3px;
+}
+
+.mensagem-status{
+    color:#334155;
+    background:#ffffff;
+    border:1px solid #dfe8f6;
+    border-radius:8px;
+    padding:12px 14px;
+    margin-bottom:12px;
+    font-size:14px;
+    box-shadow:0 8px 18px rgba(15,23,42,0.04);
+}
+
+@media (prefers-reduced-motion: reduce){
+    *,
+    *::before,
+    *::after{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+    }
+}
+
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -336,7 +554,7 @@ header{
     </div>
 
     <div class="logo-boxi">
-        <img src="https://www.peintegrado.pe.gov.br/portal/imagens/marca.png">
+        <img src="https://www.sad.pe.gov.br/images/images/PE-Integrado.png">
     </div>
 
     <div class="logo-box">
@@ -421,7 +639,7 @@ header{
 
         <div class="modal-header">
             <h2 id="tituloModal">Links</h2>
-            <span class="fechar" onclick="fecharModal()">&times;</span>
+            <button type="button" class="fechar" onclick="fecharModal()" aria-label="Fechar modal">&times;</button>
         </div>
 
         <div class="modal-body" id="conteudoModal">
@@ -435,313 +653,275 @@ header{
 <script>
 
 /* =========================
-   DADOS DOS LINKS
+   CONFIGURAÇÃO DO SUPABASE
+   Troque pelos dados do seu projeto:
+   Supabase > Project Settings > API
 ========================= */
+const SUPABASE_URL = "https://lsrdtgkmhydcstsvsrzr.supabase.co/";
+const SUPABASE_ANON_KEY = "sb_publishable_VaYVzVFQ39UzrH081idygA_G2Ogsj_4";
 
-const dados = {
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    reunioes: {
-        titulo: "Links de Reuniões",
-        links: [
-            {
-                nome: "Reunião Daily (Squad Ariano Suassuna)",
-                url: "https://meet.google.com/xox-cney-gni?authuser=0"
-            },
-            
-            {
-                nome: "Reunião Daily (PO)",
-                url: "https://meet.google.com/naj-azhe-wfe"
-            },
-            
-            {
-                nome: "Credência-PE (Reunião de Gestão)",
-                url: "https://meet.google.com/ofn-bnjh-exe"
-            },
+let categoriaAtual = null;
+let canalTempoReal = null;
 
-              {
-                nome: "Reunião de Extras - Credência PE)",
-                url: "https://meet.google.com/yyo-ovrw-jjv"
-            },
-            
-
-        ]
-    },
-
-    planilhas: {
-        titulo: "Planilhas",
-        links: [
-            {
-                nome: "Controle de Solicitações Credencia-PE",
-                url: "https://docs.google.com/spreadsheets/d/1LEPw5eiCiehcD4tVFP_2FqhhjCuaE5HJusS63jDhfMo/edit?gid=1878358193#gid=1878358193"
-            },
-            {
-                nome: "Planilha de atividade da Qintess",
-                url: "https://docs.google.com/spreadsheets/d/1gKrtLH7q8Gy8Ha_YdnPNW-Bz5u-P8lZJPWZ12RbuIgM/edit?gid=307462257#gid=307462257"
-            }
-        ]
-    },
-
-    ticket: {
-        titulo: "Tickets Jira",
-        links: [
-            {
-                nome: "Ticket principal para análise de viabilidade técnica do SICX",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-171"
-            },
-            {
-                nome: "Tickets - MVP 1 Versão 1.0 (Catálogo)",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-212"
-            },
-
-            {
-                nome:"Tickets - MVP 1 Versão 1.0 (Cadastro da Classificação)",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-213"
-            },
-
-            {
-                nome:"Tickets - MVP 1 Versão 1.0 (Cadastro de Itens)",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-214"
-            },
-
-            {
-                nome:"Tickets - MVP 1 Versão 1.0 (Cadastro do Edital)",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-215"
-            },
-
-                        {
-                nome:"Tickets - MVP 1 Versão 1.0 (Credenciamento)",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-216"
-            },
-
-                        {
-                nome:"Tickets - MVP 1 Versão 1.0 (Cotação)",
-                url: "https://greenwavedigital.atlassian.net/jira/servicedesk/projects/TICKET/section/service-requests/custom/101/TICKET-217"
-            }
-        ]
-    },
-
-    apresentacoes: {
-        titulo: "Apresentações",
-        links: [
-
-             {
-                nome: "Apresentação do Requisitos SICX versão 1.0 ",
-                url: "https://docs.google.com/presentation/d/1ZOrmdjcc6dD1arqPxj3aG8GesNXIp-IE/edit?slide=id.p1#slide=id.p1"
-            },
-
-                        {
-                nome: "Apresentação do Requisitos SICX versão 1.1 ",
-                url: "https://docs.google.com/presentation/d/1XKoix0nc65wzvXGlJ_qTqTHfyeFkjQKd/edit?usp=sharing&ouid=115848030807479571058&rtpof=true&sd=true"
-            }
-        ]
-    },
-
-    prototipo: {
-        titulo: "Protótipos",
-        links: [
-            {
-                nome: "1º Protótipo Credencia Completo: (Área pública, SICX, PCA/DFD, Fase Preliminar e Painéis)",
-                url: "https://prototipo-credencia-completo.lovable.app/home"
-            },
-            
-            {
-                nome: "2º Protótipo Portal SICX:",
-                url: " https://prototipoinicial-sicx-govpe.lovable.app/login"
-            },
-
-                        {
-                nome: "3º Protótipo Versão da Imersão SICX:",
-                url: "https://prototipopaineiscredencia.lovable.app/sicx/editais"
-            },
-
-                        {
-                nome: "4º Protótipo PE Integrado + Credencia PE (Resultados): (Após espelhamento, caso o valor consumido precise de construção de telas no PE Integrado)",
-                url: "https://telainicialintegracaocredenciapei.lovable.app/"
-            },
-
-                        {
-                nome: "5º Protótipo Portal do Fornecedor:",
-                url: "https://stitch.withgoogle.com/preview/11162548969088077988?node-id=0bb1e4767b284de5bca2fd6e068fe95f&raw=1"
-            },
-
-             {
-                nome: "6º protótipo Credencial:",
-                url: "https://paginacredenciamento.netlify.app/"
-            },
-            
-
-            {
-                nome: "7º protótipo Credencial:",
-                url: "https://region-filter-magic.lovable.app/"
-            },
-
-        ]
-    },
-
-    homologacao: {
-        titulo: "Ambiente de Homologação",
-        links: [
-            {
-                nome: "Credencia PE",
-                url: "https://homologcredencia.pe.gov.br/ "
-            },
-
-            {
-                nome: "PE Integrado",
-                url: "https://www.homolog02.peintegrado.pe.gov.br/"
-            },
-
-            {
-                nome: "PE Integrado (Pré-subida)",
-                url: "https://www.homologpeintegrado.pe.gov.br/"
-            },
-
-        ]
-    },
-
-    gravacao: {
-        titulo: "Gravações",
-        links: [
-
-            {
-                nome: "Reunião Gestão  2026-05-15",
-                url: "https://drive.google.com/file/d/1bEs3wypDvsfswupk7kmBrE26BC3Agex5/view?usp=sharing"
-            },
-
-            {
-                nome: "Reunião Gestão  2026-05-22",
-                url:"https://drive.google.com/file/d/1KAWgIby8xdJs-2bCsp8Fh_yW2c5gazy9/view?usp=sharing"
-            },
-
-            {
-                nome: "Reunião Demonstração da Versão 1.1 2026-05-22",
-                url:"https://drive.google.com/file/d/1BJjRMVJwq_SN5tLJ6vy4CCx06wEKO3pu/view?usp=sharing"
-            },
-
-            {
-                nome: "Reunião Gestão 2026-05-29",
-                url:"https://drive.google.com/file/d/13Bz-iSPsVHxTihphjGWZWRT_Wa0WuFrX/view?usp=sharing"
-            }
-        ]
-    }   
-    };
-
-
+/* =========================
+   TÍTULOS DAS CATEGORIAS
+========================= */
+const categorias = {
+    reunioes: "Links de Reuniões",
+    planilhas: "Planilhas",
+    ticket: "Tickets Jira",
+    apresentacoes: "Apresentações",
+    prototipo: "Protótipos",
+    homologacao: "Ambiente de Homologação",
+    gravacao: "Gravações"
+};
 
 /* =========================
    ABRIR MODAL
 ========================= */
-
-function abrirModal(tipo){
+async function abrirModal(tipo){
+    categoriaAtual = tipo;
 
     const modal = document.getElementById("modal");
     const titulo = document.getElementById("tituloModal");
     const conteudo = document.getElementById("conteudoModal");
 
-    titulo.innerHTML = dados[tipo].titulo;
+    titulo.innerHTML = categorias[tipo] || "Links";
 
-    conteudo.innerHTML = "";
-
-    /* =====================================
-       ADICIONA BARRA DE BUSCA NO TICKET
-    ===================================== */
-    if(tipo === "ticket"){
-
-        conteudo.innerHTML += `
+    conteudo.innerHTML = `
+        ${tipo === "ticket" ? `
             <div class="search-box">
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     id="buscarTicket"
                     placeholder="Buscar ticket..."
                     onkeyup="filtrarTickets()"
                 >
             </div>
+        ` : ""}
 
-            <div id="listaTickets"></div>
-        `;
+        <div id="listaLinks">
+            <div class="mensagem-status">Carregando links...</div>
+        </div>
 
-        const listaTickets = document.getElementById("listaTickets");
-
-        dados[tipo].links.forEach(link => {
-
-            listaTickets.innerHTML += `
-                <div class="link-item">
-                    <p>${link.nome}</p>
-
-                    <a href="${link.url}" target="_blank">
-                        ${link.url}
-                    </a>
-                </div>
-            `;
-
-        });
-
-    }else{
-
-        dados[tipo].links.forEach(link => {
-
-            conteudo.innerHTML += `
-                <div class="link-item">
-                    <p>${link.nome}</p>
-
-                    <a href="${link.url}" target="_blank">
-                        ${link.url}
-                    </a>
-                </div>
-            `;
-
-        });
-
-    }
+        <div class="form-link">
+            <h4>Adicionar novo link</h4>
+            <input type="text" id="novoNome" placeholder="Nome do link">
+            <input type="url" id="novaUrl" placeholder="URL do link">
+            <button class="btn-adicionar" onclick="adicionarLink()">Adicionar</button>
+        </div>
+    `;
 
     modal.style.display = "flex";
+
+    await carregarLinks(tipo);
+    ativarTempoReal(tipo);
+}
+
+/* =========================
+   CARREGAR LINKS DO SUPABASE
+========================= */
+async function carregarLinks(tipo){
+    const listaLinks = document.getElementById("listaLinks");
+
+    const { data, error } = await supabaseClient
+        .from("links")
+        .select("id, categoria, nome, url, criado_em")
+        .eq("categoria", tipo)
+        .order("id", { ascending: true });
+
+    if(error){
+        listaLinks.innerHTML = `
+            <div class="mensagem-status">
+                Erro ao carregar links: ${error.message}<br>
+                Confira se a URL e a chave do Supabase foram colocadas no código.
+            </div>
+        `;
+        return;
+    }
+
+    renderizarLinks(data || []);
+}
+
+/* =========================
+   RENDERIZAR LINKS NA TELA
+========================= */
+function renderizarLinks(links){
+    const listaLinks = document.getElementById("listaLinks");
+
+    if(!links.length){
+        listaLinks.innerHTML = `<div class="mensagem-status">Nenhum link cadastrado ainda.</div>`;
+        return;
+    }
+
+    listaLinks.innerHTML = "";
+
+    links.forEach(link => {
+        listaLinks.innerHTML += `
+            <div class="link-item">
+                <div class="link-topo">
+                    <p>${escaparHTML(link.nome)}</p>
+                    <button
+                        class="btn-deletar"
+                        onclick="deletarLink(${link.id})"
+                        title="Excluir link"
+                        aria-label="Excluir ${escaparAtributo(link.nome)}"
+                    >&times;</button>
+                </div>
+
+                <a href="${escaparAtributo(link.url)}" target="_blank" rel="noopener noreferrer">
+                    ${escaparHTML(link.url)}
+                </a>
+            </div>
+        `;
+    });
+}
+
+/* =========================
+   ADICIONAR LINK
+========================= */
+async function adicionarLink(){
+    const nomeInput = document.getElementById("novoNome");
+    const urlInput = document.getElementById("novaUrl");
+
+    const nome = nomeInput.value.trim();
+    const url = urlInput.value.trim();
+
+    if(!nome || !url){
+        alert("Preencha o nome e a URL do link.");
+        return;
+    }
+
+    if(!url.startsWith("http://") && !url.startsWith("https://")){
+        alert("A URL precisa começar com http:// ou https://");
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("links")
+        .insert({
+            categoria: categoriaAtual,
+            nome: nome,
+            url: url
+        });
+
+    if(error){
+        alert("Erro ao adicionar link: " + error.message);
+        return;
+    }
+
+    nomeInput.value = "";
+    urlInput.value = "";
+
+    await carregarLinks(categoriaAtual);
+}
+
+/* =========================
+   DELETAR LINK
+========================= */
+async function deletarLink(id){
+    const confirmar = confirm("Tem certeza que deseja excluir este link?");
+
+    if(!confirmar){
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("links")
+        .delete()
+        .eq("id", id);
+
+    if(error){
+        alert("Erro ao excluir link: " + error.message);
+        return;
+    }
+
+    await carregarLinks(categoriaAtual);
+}
+
+/* =========================
+   TEMPO REAL
+   Quando alguém adiciona ou exclui, quem estiver com o modal aberto atualiza também.
+========================= */
+function ativarTempoReal(tipo){
+    if(canalTempoReal){
+        supabaseClient.removeChannel(canalTempoReal);
+    }
+
+    canalTempoReal = supabaseClient
+        .channel("links-" + tipo)
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "links",
+                filter: "categoria=eq." + tipo
+            },
+            () => carregarLinks(tipo)
+        )
+        .subscribe();
 }
 
 /* =========================
    FILTRAR TICKETS
 ========================= */
-
 function filtrarTickets(){
-
     const input = document.getElementById("buscarTicket");
-    const filtro = input.value.toLowerCase();
 
-    const itens = document.querySelectorAll("#listaTickets .link-item");
+    if(!input){
+        return;
+    }
+
+    const filtro = input.value.toLowerCase();
+    const itens = document.querySelectorAll("#listaLinks .link-item");
 
     itens.forEach(item => {
-
         const texto = item.innerText.toLowerCase();
-
-        if(texto.includes(filtro)){
-            item.style.display = "block";
-        }else{
-            item.style.display = "none";
-        }
-
+        item.style.display = texto.includes(filtro) ? "block" : "none";
     });
-
 }
 
 /* =========================
    FECHAR MODAL
 ========================= */
-
 function fecharModal(){
     document.getElementById("modal").style.display = "none";
+
+    if(canalTempoReal){
+        supabaseClient.removeChannel(canalTempoReal);
+        canalTempoReal = null;
+    }
 }
 
 /* =========================
    FECHAR AO CLICAR FORA
 ========================= */
-
 window.onclick = function(event){
-
     const modal = document.getElementById("modal");
 
     if(event.target == modal){
-        modal.style.display = "none";
+        fecharModal();
     }
+};
 
+/* =========================
+   SEGURANÇA CONTRA HTML INJETADO
+========================= */
+function escaparHTML(texto){
+    const div = document.createElement("div");
+    div.innerText = texto || "";
+    return div.innerHTML;
+}
+
+function escaparAtributo(texto){
+    return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }
 
 </script>
