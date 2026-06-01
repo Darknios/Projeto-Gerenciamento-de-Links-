@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1a4fa0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Sanfona: homenagem a Luiz Gonzaga, o Rei do Baiao -->
+  <rect x="14" y="20" width="10" height="24" rx="3"/>
+  <rect x="40" y="20" width="10" height="24" rx="3"/>
+  <path d="M24 23l16-2"/>
+  <path d="M24 41l16 2"/>
+  <path d="M27 24v16"/>
+  <path d="M31 23.5v17"/>
+  <path d="M35 23v18"/>
+  <path d="M39 22.5v19"/>
+  <circle cx="19" cy="38" r="2" fill="#1a4fa0" stroke="none"/>
+  <circle cx="45" cy="38" r="2" fill="#1a4fa0" stroke="none"/>
+</svg>

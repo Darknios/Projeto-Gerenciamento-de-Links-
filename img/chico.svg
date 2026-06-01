@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1a4fa0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Guitarra: homenagem a Chico Science, musico -->
+  <path d="M47 11l6 6"/>
+  <path d="M44 14l6 6"/>
+  <path d="M50 14l-9 9"/>
+  <path d="M41 23c4 4 4 9 1 13.5C39 41 33 44 27 43c-4-.7-7-3.4-7.6-7.4C18.7 30 22 25 27 22c5-3 10-3 14 1z"/>
+  <circle cx="30" cy="33" r="4.5"/>
+</svg>

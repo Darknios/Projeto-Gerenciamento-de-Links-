@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1a4fa0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Mascaras de teatro: homenagem a Ariano Suassuna, dramaturgo -->
+  <path d="M14 16h18v12c0 6-4 11-9 11s-9-5-9-11V16z"/>
+  <path d="M19 24c1.2-1 2.8-1 4 0"/>
+  <path d="M27 24c-1.2-1-2.8-1-4 0" transform="translate(6 0)"/>
+  <path d="M19 33c2 2 5 2 7 0"/>
+  <path d="M34 25h18v10c0 6-4 11-9 11s-9-5-9-11V25z"/>
+  <path d="M39 33c1.2 1.2 2.8 1.2 4 0"/>
+  <path d="M47 33c1.2 1.2 2.8 1.2 4 0"/>
+  <path d="M40 41c2-1.6 5-1.6 7 0"/>
+</svg>
