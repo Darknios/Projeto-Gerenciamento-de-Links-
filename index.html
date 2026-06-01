@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<!-- Favicon: logo da GESIG. -->
+<!-- Favicon: logo da GESIG com fundo branco (SVG self-contained); PNG como fallback. -->
+<link rel="icon" type="image/svg+xml" href="favicon-gesig.svg">
 <link rel="icon" type="image/png" href="img/logo-gesig.png">
 
 <style>
@@ -116,6 +117,22 @@ header{
     background:#fff; cursor:pointer; transition:.2s ease; white-space:nowrap;
 }
 .btn-sair:hover{ background:#fdeceb; transform:translateX(2px); }
+
+/* Toasts (mensagens rapidas no canto inferior direito). */
+.toast-container{
+    position:fixed; bottom:20px; right:20px; z-index:1200;
+    display:flex; flex-direction:column; gap:10px; align-items:flex-end;
+}
+.toast{
+    background:#0b2a5b; color:#fff;
+    padding:12px 16px; border-radius:10px; font-size:14px; font-weight:600;
+    box-shadow:0 12px 30px rgba(8,25,60,.35);
+    animation:toastEntra .3s ease; max-width:300px;
+}
+.toast-ok{ background:#15803d; }
+.toast-erro{ background:#b91c1c; }
+.toast.saindo{ opacity:0; transform:translateX(20px); transition:.3s ease; }
+@keyframes toastEntra{ from{ opacity:0; transform:translateX(20px); } to{ opacity:1; transform:translateX(0); } }
 
 /* =========================
    LOGOS
@@ -317,6 +334,15 @@ header{
     background:#005eff;
     border-radius:999px;
     margin:auto;
+}
+
+/* Contador de links no canto do card. */
+.card-contador{
+    position:absolute; top:12px; right:12px;
+    min-width:22px; height:22px; padding:0 7px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#0b57d0; color:#fff; font-size:12px; font-weight:700;
+    border-radius:999px; z-index:3;
 }
 
 /* =========================
@@ -682,6 +708,15 @@ header{
 .btn-acao:hover{ background:#eef2f8; color:#0b57d0; }
 .btn-acao.excluir:hover{ background:#fee2e2; color:#b91c1c; }
 
+/* Botao de copiar link (sempre visivel, mesmo fora do modo edicao). */
+.btn-copiar{
+    border:none; background:transparent; color:#64748b;
+    width:30px; height:30px; padding:0; border-radius:8px; flex-shrink:0;
+    cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+    transition:0.2s ease;
+}
+.btn-copiar:hover{ background:#eef2f8; color:#0b57d0; }
+
 /* O formulario de adicionar so aparece no modo edicao. */
 .form-link{ display:none; }
 .modal-body.modo-edicao .form-link{ display:block; }
@@ -898,10 +933,6 @@ header{
                 <label>Descricao (opcional)</label>
                 <input type="text" id="cardDescricao" placeholder="Ex.: planilhas e relatorios da squad">
 
-                <label class="card-check">
-                    <input type="checkbox" id="cardBusca"> Mostrar barra de busca neste card
-                </label>
-
                 <label>Imagem do icone</label>
                 <input type="file" id="cardImagem" accept="image/*">
                 <div class="card-preview"><img id="cardPreview" alt=""></div>
@@ -923,6 +954,7 @@ let linksAtuais = [];         // links carregados na categoria aberta (usado na 
 let categoriasAtuais = [];   // categorias (cards) da squad logada, vindas do banco
 let editandoCards = false;   // modo de gestao dos cards (engrenagem)
 let cardEditId = null;        // id do card em edicao; null = criando um novo
+let contagemLinks = {};       // quantidade de links por slug de categoria (para o contador do card)
 
 /* =========================
    MONTAR OS CARDS DE CATEGORIA
@@ -941,8 +973,9 @@ function montarCardsDeCategoria(){
     }
 
     let html = lista.map((cat, i) => `
-        <div class="card ${cat.ativo ? "" : "inativo"}"
+        <div class="card ${cat.ativo ? "" : "inativo"}" data-slug="${escaparAtributo(cat.slug)}"
              ${editandoCards ? "" : `onclick="abrirModal('${escaparAtributo(cat.slug)}')"`}>
+            <span class="card-contador" title="Links neste card">${contagemLinks[cat.slug] || 0}</span>
             <img src="${escaparAtributo(cat.icone)}" alt="">
             <h3>${escaparHTML((cat.titulo || "").toUpperCase())}</h3>
             ${cat.descricao ? `<p class="card-desc-cat">${escaparHTML(cat.descricao)}</p>` : ""}
@@ -984,7 +1017,7 @@ async function alternarAtivo(id, ativo){
         .update({ ativo: ativo })
         .eq("id", id);
 
-    if (error){ alert("Erro ao atualizar o card: " + error.message); }
+    if (error){ toast("Erro ao atualizar o card: " + error.message, "erro"); }
 
     const cat = categoriasAtuais.find(c => c.id === id);
     if (cat){ cat.ativo = ativo; }
@@ -1006,7 +1039,7 @@ async function moverCard(id, direcao){
     const r2 = await supabaseClient.from("categorias").update({ ordem: ordemA }).eq("id", b.id);
 
     if (r1.error || r2.error){
-        alert("Erro ao reordenar: " + ((r1.error || r2.error).message));
+        toast("Erro ao reordenar: " + ((r1.error || r2.error).message), "erro");
         return;
     }
 
@@ -1035,16 +1068,14 @@ async function abrirModal(tipo){
     document.getElementById("btnModoEdicao").classList.remove("ativo");
 
     conteudo.innerHTML = `
-        ${info && info.busca ? `
-            <div class="search-box">
-                <input
-                    type="text"
-                    id="buscarTicket"
-                    placeholder="Buscar..."
-                    onkeyup="filtrarTickets()"
-                >
-            </div>
-        ` : ""}
+        <div class="search-box">
+            <input
+                type="text"
+                id="buscarTicket"
+                placeholder="Buscar link..."
+                onkeyup="filtrarTickets()"
+            >
+        </div>
 
         <div id="listaLinks">
             <div class="mensagem-status">Carregando links...</div>
@@ -1116,6 +1147,12 @@ function renderizarLinks(links){
         <div class="link-item" data-id="${link.id}">
             <div class="link-topo">
                 <p>${escaparHTML(link.nome)}</p>
+                <button class="btn-copiar" onclick="copiarLink(${link.id})" title="Copiar link" aria-label="Copiar link ${escaparAtributo(link.nome)}">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                </button>
                 <div class="link-acoes">
                     <button class="btn-acao editar" onclick="iniciarEdicao(${link.id})"
                             title="Editar" aria-label="Editar ${escaparAtributo(link.nome)}">
@@ -1142,6 +1179,17 @@ function renderizarLinks(links){
             </a>
         </div>
     `).join("");
+}
+
+/* =========================
+   COPIAR LINK
+========================= */
+function copiarLink(id){
+    const link = linksAtuais.find(l => l.id === id);
+    if (!link){ return; }
+    navigator.clipboard.writeText(link.url)
+        .then(() => toast("Link copiado!", "ok"))
+        .catch(() => toast("Nao foi possivel copiar.", "erro"));
 }
 
 /* =========================
@@ -1176,12 +1224,12 @@ async function salvarEdicao(id){
     const descricao = document.getElementById(`editDescricao-${id}`).value.trim();
 
     if(!nome || !url){
-        alert("Preencha o nome e a URL do link.");
+        toast("Preencha o nome e a URL do link.", "erro");
         return;
     }
 
     if(!url.startsWith("http://") && !url.startsWith("https://")){
-        alert("A URL precisa comecar com http:// ou https://");
+        toast("A URL precisa comecar com http:// ou https://", "erro");
         return;
     }
 
@@ -1191,11 +1239,12 @@ async function salvarEdicao(id){
         .eq("id", id);
 
     if(error){
-        alert("Erro ao salvar o link: " + error.message);
+        toast("Erro ao salvar o link: " + error.message, "erro");
         return;
     }
 
     await carregarLinks(categoriaAtual);
+    toast("Link salvo!", "ok");
 }
 
 /* =========================
@@ -1211,12 +1260,12 @@ async function adicionarLink(){
     const descricao = descricaoInput.value.trim();
 
     if(!nome || !url){
-        alert("Preencha o nome e a URL do link.");
+        toast("Preencha o nome e a URL do link.", "erro");
         return;
     }
 
     if(!url.startsWith("http://") && !url.startsWith("https://")){
-        alert("A URL precisa começar com http:// ou https://");
+        toast("A URL precisa comecar com http:// ou https://", "erro");
         return;
     }
 
@@ -1231,7 +1280,7 @@ async function adicionarLink(){
         });
 
     if(error){
-        alert("Erro ao adicionar link: " + error.message);
+        toast("Erro ao adicionar link: " + error.message, "erro");
         return;
     }
 
@@ -1239,7 +1288,9 @@ async function adicionarLink(){
     urlInput.value = "";
     descricaoInput.value = "";
 
+    if (contagemLinks){ contagemLinks[categoriaAtual] = (contagemLinks[categoriaAtual] || 0) + 1; }
     await carregarLinks(categoriaAtual);
+    toast("Link adicionado!", "ok");
 }
 
 /* =========================
@@ -1262,11 +1313,13 @@ async function deletarLink(id){
         .eq("id", id);
 
     if(error){
-        alert("Erro ao excluir link: " + error.message);
+        toast("Erro ao excluir link: " + error.message, "erro");
         return;
     }
 
+    if (contagemLinks && contagemLinks[categoriaAtual]){ contagemLinks[categoriaAtual] -= 1; }
     await carregarLinks(categoriaAtual);
+    toast("Link excluido.", "ok");
 }
 
 /* =========================
@@ -1327,10 +1380,19 @@ function fecharModal(){
     document.getElementById("conteudoModal").classList.remove("modo-edicao");
     document.getElementById("btnModoEdicao").classList.remove("ativo");
 
+    // Atualiza o contador do card que estava aberto.
+    atualizarBadge(categoriaAtual);
+
     if(canalTempoReal){
         supabaseClient.removeChannel(canalTempoReal);
         canalTempoReal = null;
     }
+}
+
+// Atualiza o numero exibido no badge de um card pelo slug.
+function atualizarBadge(slug){
+    const badge = document.querySelector(`.card[data-slug="${slug}"] .card-contador`);
+    if (badge){ badge.textContent = contagemLinks[slug] || 0; }
 }
 
 /* =========================
@@ -1379,7 +1441,20 @@ async function carregarCategorias(){
     }
 
     categoriasAtuais = data || [];
+    await carregarContagemLinks();
     montarCardsDeCategoria();
+}
+
+// Busca todos os links da squad e conta quantos ha por categoria (para o badge do card).
+async function carregarContagemLinks(){
+    const { data, error } = await supabaseClient
+        .from("links")
+        .select("categoria")
+        .eq("squad", squadAtual);
+
+    contagemLinks = {};
+    if (error || !data){ return; }
+    data.forEach(l => { contagemLinks[l.categoria] = (contagemLinks[l.categoria] || 0) + 1; });
 }
 
 // Helper: acha uma categoria carregada pelo slug.
@@ -1395,7 +1470,6 @@ function abrirNovoCard(){
     document.getElementById("tituloModalCard").textContent = "Novo card";
     document.getElementById("cardTitulo").value = "";
     document.getElementById("cardDescricao").value = "";
-    document.getElementById("cardBusca").checked = false;
     document.getElementById("cardImagem").value = "";
     document.getElementById("cardPreview").removeAttribute("src");
     document.getElementById("cardErro").style.display = "none";
@@ -1409,7 +1483,6 @@ function abrirEdicaoCard(id){
     document.getElementById("tituloModalCard").textContent = "Editar card";
     document.getElementById("cardTitulo").value = cat.titulo || "";
     document.getElementById("cardDescricao").value = cat.descricao || "";
-    document.getElementById("cardBusca").checked = !!cat.busca;
     document.getElementById("cardImagem").value = "";
     const prev = document.getElementById("cardPreview");
     if (cat.icone){ prev.src = cat.icone; } else { prev.removeAttribute("src"); }
@@ -1455,7 +1528,6 @@ async function uploadIcone(file){
 async function salvarCard(){
     const titulo = document.getElementById("cardTitulo").value.trim();
     const descricao = document.getElementById("cardDescricao").value.trim();
-    const busca = document.getElementById("cardBusca").checked;
     const fileInput = document.getElementById("cardImagem");
     const file = fileInput.files && fileInput.files[0];
 
@@ -1480,14 +1552,13 @@ async function salvarCard(){
                 slug: "c" + Date.now(),
                 titulo: titulo,
                 descricao: descricao,
-                busca: busca,
                 ordem: ordem,
                 ativo: true,
                 icone: iconeUrl || "https://cdn-icons-png.flaticon.com/512/1828/1828911.png"
             });
             if (error){ throw error; }
         } else {
-            const update = { titulo: titulo, descricao: descricao, busca: busca };
+            const update = { titulo: titulo, descricao: descricao };
             if (iconeUrl){ update.icone = iconeUrl; }
             const { error } = await supabaseClient.from("categorias").update(update).eq("id", cardEditId);
             if (error){ throw error; }
@@ -1495,6 +1566,7 @@ async function salvarCard(){
 
         fecharModalCard();
         await carregarCategorias();
+        toast("Card salvo!", "ok");
     } catch (e){
         mostrarErroCard("Erro ao salvar: " + e.message);
     } finally {
@@ -1512,10 +1584,10 @@ async function excluirCard(id){
     const del1 = await supabaseClient
         .from("links").delete()
         .eq("squad", squadAtual).eq("categoria", cat.slug);
-    if (del1.error){ alert("Erro ao excluir os links do card: " + del1.error.message); return; }
+    if (del1.error){ toast("Erro ao excluir os links do card: " + del1.error.message, "erro"); return; }
 
     const del2 = await supabaseClient.from("categorias").delete().eq("id", id);
-    if (del2.error){ alert("Erro ao excluir o card: " + del2.error.message); return; }
+    if (del2.error){ toast("Erro ao excluir o card: " + del2.error.message, "erro"); return; }
 
     await carregarCategorias();
 }
@@ -1569,7 +1641,29 @@ async function iniciarPagina(){
 
 iniciarPagina();
 
+/* =========================
+   TOASTS (mensagens rapidas no canto)
+========================= */
+function toast(mensagem, tipo){
+    const container = document.getElementById("toastContainer");
+    if (!container){ return; }
+
+    const el = document.createElement("div");
+    el.className = "toast " + (tipo === "erro" ? "toast-erro" : tipo === "ok" ? "toast-ok" : "");
+    el.textContent = mensagem;
+    container.appendChild(el);
+
+    // Remove apos alguns segundos com uma saida suave.
+    setTimeout(() => {
+        el.classList.add("saindo");
+        setTimeout(() => el.remove(), 300);
+    }, 2600);
+}
+
 </script>
+
+<!-- Area dos toasts (mensagens rapidas). -->
+<div class="toast-container" id="toastContainer"></div>
 
 </body>
 </html>
