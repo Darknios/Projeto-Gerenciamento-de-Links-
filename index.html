@@ -693,25 +693,25 @@ let canalTempoReal = null;
 let squadAtual = null;
 let modoEdicao = false;       // controla se o modal mostra as acoes de edicao
 let linksAtuais = [];         // links carregados na categoria aberta (usado na edicao inline)
+let categoriasAtuais = [];   // categorias (cards) da squad logada, vindas do banco
 
 /* =========================
    MONTAR OS CARDS DE CATEGORIA
-   Mostra apenas as categorias habilitadas para a squad logada.
+   No modo leitura mostra apenas os cards ativos, em ordem.
 ========================= */
-function montarCardsDeCategoria(listaCategorias){
+function montarCardsDeCategoria(){
     const cards = document.getElementById("cardsCategorias");
-    const habilitadas = (listaCategorias || []).filter(key => CATEGORIAS[key]);
+    const ativos = categoriasAtuais.filter(c => c.ativo);
 
-    if (!habilitadas.length){
-        cards.innerHTML = `<div class="mensagem-status">Nenhuma categoria habilitada para esta squad.</div>`;
+    if (!ativos.length){
+        cards.innerHTML = `<div class="mensagem-status">Nenhum card cadastrado ainda.</div>`;
         return;
     }
 
-    cards.innerHTML = habilitadas.map(key => `
-        <div class="card" onclick="abrirModal('${key}')">
-            <img src="${CATEGORIAS[key].icone}" alt=""
-                 onerror="this.onerror=null;this.src='${CATEGORIAS[key].fallback}'">
-            <h3>${escaparHTML(CATEGORIAS[key].titulo.toUpperCase())}</h3>
+    cards.innerHTML = ativos.map(cat => `
+        <div class="card" onclick="abrirModal('${escaparAtributo(cat.slug)}')">
+            <img src="${escaparAtributo(cat.icone)}" alt="">
+            <h3>${escaparHTML((cat.titulo || "").toUpperCase())}</h3>
             <div class="linha"></div>
         </div>
     `).join("");
@@ -727,7 +727,7 @@ async function abrirModal(tipo){
     const modal = document.getElementById("modal");
     const titulo = document.getElementById("tituloModal");
     const conteudo = document.getElementById("conteudoModal");
-    const info = CATEGORIAS[tipo];
+    const info = categoriaPorSlug(tipo);
 
     titulo.textContent = info ? info.titulo : "Links";
 
@@ -1055,6 +1055,32 @@ function escaparAtributo(texto){
 }
 
 /* =========================
+   CARREGAR CATEGORIAS (CARDS) DA SQUAD
+========================= */
+async function carregarCategorias(){
+    const { data, error } = await supabaseClient
+        .from("categorias")
+        .select("id, squad, slug, titulo, icone, busca, ordem, ativo")
+        .eq("squad", squadAtual)
+        .order("ordem", { ascending: true });
+
+    if (error){
+        document.getElementById("cardsCategorias").innerHTML =
+            `<div class="mensagem-status">Erro ao carregar os cards: ${escaparHTML(error.message)}</div>`;
+        categoriasAtuais = [];
+        return;
+    }
+
+    categoriasAtuais = data || [];
+    montarCardsDeCategoria();
+}
+
+// Helper: acha uma categoria carregada pelo slug.
+function categoriaPorSlug(slug){
+    return categoriasAtuais.find(c => c.slug === slug) || null;
+}
+
+/* =========================
    INICIALIZACAO + PROTECAO DE ACESSO
 ========================= */
 async function iniciarPagina(){
@@ -1087,7 +1113,7 @@ async function iniciarPagina(){
     return;
   }
 
-  montarCardsDeCategoria(squad.categorias);
+  await carregarCategorias();
 }
 
 iniciarPagina();
