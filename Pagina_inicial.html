@@ -10,28 +10,25 @@
     .page { background: linear-gradient(150deg,#16438c,#1a4fa0 55%,#2059b8); min-height: 100vh; }
 
     /* HEADER */
+    /* Cabecalho com altura padronizada e as duas logos centralizadas. */
     .header {
       background: #fff;
-      padding: 10px 24px;
+      min-height: 104px;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 52px;
+      box-shadow: 0 2px 12px rgba(8,25,60,0.10);
     }
 
-    .header-logo-left { display: flex; align-items: center; gap: 8px; }
+    .header-logo { height: 72px; object-fit: contain; transition: transform .3s ease; }
+    .header-logo:hover { transform: scale(1.04); }
 
-    .header-center { display: flex; flex-direction: column; align-items: center; }
-
-    .pe-integrado-logo { display: flex; align-items: center; gap: 6px; }
-    .pe-integrado-logo div {
-      font-size: 22px;
-      color: #2176b8;
-      font-weight: 400;
-      font-family: Arial;
+    @media (max-width: 600px) {
+      .header { gap: 24px; min-height: 84px; }
+      .header-logo { height: 52px; }
     }
-    .pe-integrado-logo div span { font-weight: 700; }
-
-    .header-logo-right { display: flex; align-items: center; gap: 8px; }
 
     /* TÍTULO */
     .title-section { padding: 22px 0 18px; text-align: center; }
@@ -47,10 +44,22 @@
     .cards-area { padding: 0 20px 30px; }
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
       max-width: 980px;
       margin: 0 auto;
+    }
+
+    /* Icone da squad (SVG vindo da pasta /img, definido na tabela squads). */
+    .squad-icon { width: 46px; height: 46px; object-fit: contain; }
+
+    /* Mensagem de carregamento/erro da lista de squads. */
+    .squads-aviso {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #eaf1fb;
+      font-size: 14px;
+      padding: 28px 0;
     }
 
     /* CARD */
@@ -207,32 +216,18 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js" defer></script>
+  <script src="config.js"></script>
 </head>
 <body>
 
 <div class="page">
 
   <!-- HEADER -->
-  <!-- Logos unificadas com as do index.html. As logos finais (SAD e GESIG) -->
-  <!-- serao trocadas depois: basta substituir o src de cada imagem. -->
+  <!-- Duas logos centralizadas. As logos finais (SAD e GESIG) serao trocadas -->
+  <!-- depois: basta substituir o src de cada imagem. -->
   <div class="header">
-
-    <!-- Logo esquerda -->
-    <div class="header-logo-left">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s" alt="Logo" style="height:54px;object-fit:contain;">
-    </div>
-
-    <!-- Logo centro -->
-    <div class="header-center">
-      <img src="https://www.sad.pe.gov.br/images/images/PE-Integrado.png" alt="PE Integrado" style="height:48px;object-fit:contain;">
-    </div>
-
-    <!-- Logo direita -->
-    <div class="header-logo-right">
-      <img src="https://credencia.pe.gov.br/web/image/website/1/social_default_image?unique=d0f8554" alt="Credencia PE" style="height:54px;object-fit:contain;">
-    </div>
-
+    <img class="header-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s" alt="Governo de Pernambuco">
+    <img class="header-logo" src="https://www.sad.pe.gov.br/images/images/PE-Integrado.png" alt="PE Integrado">
   </div>
 
   <!-- TÍTULO -->
@@ -241,147 +236,11 @@
   </div>
 
   <!-- CARDS -->
+  <!-- Os cards das squads sao montados dinamicamente a partir da tabela "squads" -->
+  <!-- do Supabase (ver montarCardsDasSquads no script ao final da pagina). -->
   <div class="cards-area">
-    <div class="cards-grid">
-
-      <!-- Squad 1 -->
-      <div class="squad-card" data-squad="ariano">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🪔</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Ariano Suassuna</div>
-          </div>
-        </div>
-        <div class="card-desc">Gestão de Conteúdo e Cultura</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 2 -->
-      <div class="squad-card" data-squad="gonzaga">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🪗</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Luis Gonzaga</div>
-          </div>
-        </div>
-        <div class="card-desc">Integração e Redes</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 3 -->
-      <div class="squad-card" data-squad="clarice">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <path d="M10 16 Q26 4 42 16" stroke="#2176b8" stroke-width="2" fill="none"/>
-              <text x="14" y="36" font-size="18" fill="#2176b8"
-                    font-family="monospace" font-weight="bold">&lt;/&gt;</text>
-              <path d="M6 40 Q26 50 46 40" stroke="#1a4fa0" stroke-width="2" fill="none"/>
-            </svg>
-          </div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Clarice Lispector</div>
-          </div>
-        </div>
-        <div class="card-desc">Inovação Literária e Desenvolvimento</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 4 -->
-      <div class="squad-card" data-squad="manuel">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🏙️</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Manuel Bandeira</div>
-          </div>
-        </div>
-        <div class="card-desc">Infraestrutura e Planejamento</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 5 -->
-      <div class="squad-card" data-squad="frei">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle cx="26" cy="20" r="10" fill="none" stroke="#c0392b" stroke-width="2"/>
-              <circle cx="26" cy="20" r="4" fill="#c0392b"/>
-              <line x1="16" y1="20" x2="8" y2="26" stroke="#c0392b" stroke-width="2"/>
-              <line x1="36" y1="20" x2="44" y2="26" stroke="#c0392b" stroke-width="2"/>
-              <line x1="26" y1="30" x2="22" y2="44" stroke="#c0392b" stroke-width="2"/>
-              <line x1="26" y1="30" x2="30" y2="44" stroke="#c0392b" stroke-width="2"/>
-              <circle cx="8" cy="28" r="3" fill="#c0392b"/>
-              <circle cx="44" cy="28" r="3" fill="#c0392b"/>
-            </svg>
-          </div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Frei Caneca</div>
-          </div>
-        </div>
-        <div class="card-desc">Transparência e Dados Abertos</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 6 -->
-      <div class="squad-card" data-squad="joao">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🌵</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">João Cabral</div>
-          </div>
-        </div>
-        <div class="card-desc">Eficiência Hídrica e Ambiental</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 7 -->
-      <div class="squad-card" data-squad="chico">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🦀</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Chico Science</div>
-          </div>
-        </div>
-        <div class="card-desc">Educação Tecnológica e Manguebeat Digital</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 8 -->
-      <div class="squad-card" data-squad="clementina">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🎤</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Clementina de Jesus</div>
-          </div>
-        </div>
-        <div class="card-desc">Inclusão Social e Parcerias</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
+    <div class="cards-grid" id="cardsGrid">
+      <div class="squads-aviso">Carregando squads...</div>
     </div>
   </div>
 </div>
@@ -410,21 +269,69 @@
   const senhaEl = document.getElementById("loginSenha");
   const erroEl  = document.getElementById("loginErro");
   const btnEntrar = document.getElementById("loginEntrar");
+  const cardsGrid = document.getElementById("cardsGrid");
 
-  // Abrir o modal ao clicar em "Selecionar".
-  document.querySelectorAll(".squad-card").forEach(card => {
-    const botao = card.querySelector(".btn-select");
-    botao.addEventListener("click", () => {
-      squadSelecionada = card.getAttribute("data-squad");
-      const info = SQUADS[squadSelecionada];
-      titulo.textContent = "Acessar squad";
-      sub.textContent = info ? info.nome : "";
-      erroEl.textContent = "";
-      senhaEl.value = "";
-      modal.classList.add("aberto");
-      senhaEl.focus();
+  // Escapa texto para uso seguro dentro de atributos HTML.
+  function escapar(texto){
+    return String(texto || "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // Monta os cards das squads lendo a tabela "squads" do Supabase.
+  async function montarCardsDasSquads(){
+    const { data, error } = await supabaseClient
+      .from("squads")
+      .select("key, nome, descricao, icone, ativo")
+      .eq("ativo", true)
+      .order("ordem", { ascending: true });
+
+    if (error){
+      cardsGrid.innerHTML = `<div class="squads-aviso">Nao foi possivel carregar as squads: ${escapar(error.message)}</div>`;
+      return;
+    }
+
+    if (!data || !data.length){
+      cardsGrid.innerHTML = `<div class="squads-aviso">Nenhuma squad cadastrada ainda.</div>`;
+      return;
+    }
+
+    cardsGrid.innerHTML = data.map(squad => `
+      <div class="squad-card" data-squad="${escapar(squad.key)}" data-nome="${escapar(squad.nome)}">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon">
+            <img class="squad-icon" src="${escapar(squad.icone)}" alt="Icone da squad ${escapar(squad.nome)}">
+          </div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">${escapar(squad.nome)}</div>
+          </div>
+        </div>
+        ${squad.descricao ? `<div class="card-desc">${escapar(squad.descricao)}</div>` : ""}
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+    `).join("");
+
+    // Religa o clique de "Selecionar" nos cards recem-criados.
+    cardsGrid.querySelectorAll(".squad-card").forEach(card => {
+      card.querySelector(".btn-select").addEventListener("click", () => abrirLogin(card));
     });
-  });
+  }
+
+  // Abre o modal de senha para a squad do card clicado.
+  function abrirLogin(card){
+    squadSelecionada = card.getAttribute("data-squad");
+    titulo.textContent = "Acessar squad";
+    sub.textContent = card.getAttribute("data-nome") || "";
+    erroEl.textContent = "";
+    senhaEl.value = "";
+    modal.classList.add("aberto");
+    senhaEl.focus();
+  }
 
   function fecharLogin(){ modal.classList.remove("aberto"); }
   document.getElementById("loginCancelar").addEventListener("click", fecharLogin);
@@ -455,6 +362,9 @@
 
   btnEntrar.addEventListener("click", entrar);
   senhaEl.addEventListener("keyup", e => { if (e.key === "Enter") entrar(); });
+
+  // Carrega as squads assim que a pagina abre.
+  montarCardsDasSquads();
 </script>
 </body>
 </html>
