@@ -762,27 +762,96 @@ let squadAtual = null;
 let modoEdicao = false;       // controla se o modal mostra as acoes de edicao
 let linksAtuais = [];         // links carregados na categoria aberta (usado na edicao inline)
 let categoriasAtuais = [];   // categorias (cards) da squad logada, vindas do banco
+let editandoCards = false;   // modo de gestao dos cards (engrenagem)
 
 /* =========================
    MONTAR OS CARDS DE CATEGORIA
    No modo leitura mostra apenas os cards ativos, em ordem.
+   No modo edicao mostra todos (ativos e inativos) com controles.
 ========================= */
 function montarCardsDeCategoria(){
     const cards = document.getElementById("cardsCategorias");
-    const ativos = categoriasAtuais.filter(c => c.ativo);
+    const lista = editandoCards ? categoriasAtuais : categoriasAtuais.filter(c => c.ativo);
 
-    if (!ativos.length){
+    cards.classList.toggle("editando-cards", editandoCards);
+
+    if (!lista.length && !editandoCards){
         cards.innerHTML = `<div class="mensagem-status">Nenhum card cadastrado ainda.</div>`;
         return;
     }
 
-    cards.innerHTML = ativos.map(cat => `
-        <div class="card" onclick="abrirModal('${escaparAtributo(cat.slug)}')">
+    let html = lista.map((cat, i) => `
+        <div class="card ${cat.ativo ? "" : "inativo"}"
+             ${editandoCards ? "" : `onclick="abrirModal('${escaparAtributo(cat.slug)}')"`}>
             <img src="${escaparAtributo(cat.icone)}" alt="">
             <h3>${escaparHTML((cat.titulo || "").toUpperCase())}</h3>
             <div class="linha"></div>
+            <div class="card-controles">
+                <label class="switch" title="Mostrar este card">
+                    <input type="checkbox" ${cat.ativo ? "checked" : ""}
+                           onchange="alternarAtivo(${cat.id}, this.checked)">
+                    <span></span>
+                </label>
+                <button title="Mover para cima" onclick="moverCard(${cat.id}, -1)">&#8593;</button>
+                <button title="Mover para baixo" onclick="moverCard(${cat.id}, 1)">&#8595;</button>
+                <button title="Editar" onclick="abrirEdicaoCard(${cat.id})">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+                </button>
+                <button class="excluir" title="Excluir" onclick="excluirCard(${cat.id})">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/></svg>
+                </button>
+            </div>
         </div>
     `).join("");
+
+    html += `<div class="card-novo" onclick="abrirNovoCard()">+ Novo card</div>`;
+    cards.innerHTML = html;
+}
+
+/* =========================
+   MODO EDICAO DE CARDS (engrenagem)
+========================= */
+function alternarEdicaoCards(){
+    editandoCards = !editandoCards;
+    document.getElementById("btnEditarCards").classList.toggle("ativo", editandoCards);
+    montarCardsDeCategoria();
+}
+
+async function alternarAtivo(id, ativo){
+    const { error } = await supabaseClient
+        .from("categorias")
+        .update({ ativo: ativo })
+        .eq("id", id);
+
+    if (error){ alert("Erro ao atualizar o card: " + error.message); }
+
+    const cat = categoriasAtuais.find(c => c.id === id);
+    if (cat){ cat.ativo = ativo; }
+    montarCardsDeCategoria();
+}
+
+// direcao: -1 (sobe) ou 1 (desce). Troca a "ordem" com o card vizinho.
+async function moverCard(id, direcao){
+    const ordenadas = [...categoriasAtuais].sort((a, b) => a.ordem - b.ordem);
+    const idx = ordenadas.findIndex(c => c.id === id);
+    const alvo = idx + direcao;
+    if (idx < 0 || alvo < 0 || alvo >= ordenadas.length){ return; }
+
+    const a = ordenadas[idx];
+    const b = ordenadas[alvo];
+    const ordemA = a.ordem, ordemB = b.ordem;
+
+    const r1 = await supabaseClient.from("categorias").update({ ordem: ordemB }).eq("id", a.id);
+    const r2 = await supabaseClient.from("categorias").update({ ordem: ordemA }).eq("id", b.id);
+
+    if (r1.error || r2.error){
+        alert("Erro ao reordenar: " + ((r1.error || r2.error).message));
+        return;
+    }
+
+    a.ordem = ordemB; b.ordem = ordemA;
+    categoriasAtuais.sort((x, y) => x.ordem - y.ordem);
+    montarCardsDeCategoria();
 }
 
 /* =========================
