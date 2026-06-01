@@ -17,11 +17,13 @@ create table if not exists public.links (
   categoria text not null,
   nome text not null,
   url text not null,
+  descricao text,
   criado_em timestamptz not null default now()
 );
 
--- se a tabela ja existia sem a coluna squad, adiciona:
+-- se a tabela ja existia sem essas colunas, adiciona:
 alter table public.links add column if not exists squad text;
+alter table public.links add column if not exists descricao text;
 ```
 
 ## 3. Ligar a seguranca por squad (RLS)
