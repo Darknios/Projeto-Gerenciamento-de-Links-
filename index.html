@@ -53,11 +53,25 @@ header{
 
     display:flex;
     align-items:center;
-    justify-content:center;
-    gap:52px;
+    justify-content:space-between;
 
     box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* As laterais tem o mesmo peso (flex:1) para as logos ficarem centralizadas. */
+.header-lado{ flex:1; display:flex; align-items:center; }
+.header-lado:last-child{ justify-content:flex-end; }
+.header-logos{ display:flex; align-items:center; gap:52px; }
+
+/* Botao de voltar para a pagina inicial. */
+.btn-voltar{
+    display:inline-flex; align-items:center; gap:6px;
+    text-decoration:none; color:#1a4fa0;
+    border:1px solid #1a4fa0; border-radius:999px;
+    padding:8px 15px; font-size:13px; font-weight:600;
+    background:#fff; transition:.2s ease; white-space:nowrap;
+}
+.btn-voltar:hover{ background:#eaf1fb; transform:translateX(-2px); }
 
 /* =========================
    LOGOS
@@ -76,9 +90,13 @@ header{
 .logo-gesig{ height:92px; }
 
 @media(max-width:600px){
-    header{ gap:24px; min-height:84px; padding:14px 16px; }
-    .logo-sad{ height:46px; }
-    .logo-gesig{ height:66px; }
+    header{ min-height:84px; padding:12px; }
+    .header-logos{ gap:16px; }
+    .logo-sad{ height:42px; }
+    .logo-gesig{ height:58px; }
+    /* No celular, o botao fica so com a seta para economizar espaco. */
+    .btn-voltar span{ display:none; }
+    .btn-voltar{ padding:8px; }
 }
 
 /* =========================
@@ -151,23 +169,11 @@ header{
 @media(max-width:768px){
 
     header{
-        flex-direction:column;
-        gap:30px;
-        padding:20px;
+        padding:14px 16px;
     }
 
-    .logo-box,
-    .logo-boxi,
-    .logo-box:first-child,
-    .logo-box:nth-child(2),
-    .logo-box:last-child{
-        justify-content:center;
-    }
-
-    .logo-box img,
-    .logo-boxi img{
-        width:190px;
-        height:50px;
+    .header-logos{
+        gap:24px;
     }
 
 }
@@ -699,12 +705,28 @@ header{
 ========================= -->
 <header>
 
-    <!-- Para trocar pelas logos finais, coloque img/logo-sad.png (esquerda) e -->
-    <!-- img/logo-gesig.png (direita) na pasta /img (o fallback remoto e so placeholder). -->
-    <img class="header-logo logo-sad" src="img/logo-sad.png" alt="SAD - Secretaria de Administracao"
-         onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s'">
-    <img class="header-logo logo-gesig" src="img/logo-gesig.png" alt="GESIG"
-         onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
+    <!-- Zona esquerda: botao de voltar para a pagina inicial (selecao de squad). -->
+    <div class="header-lado">
+        <a href="Pagina_inicial.html" class="btn-voltar" aria-label="Voltar para a pagina inicial">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"/>
+                <path d="M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Voltar</span>
+        </a>
+    </div>
+
+    <!-- Centro: as duas logos. Para trocar pelas finais, coloque -->
+    <!-- img/logo-sad.png (esquerda) e img/logo-gesig.png (direita) na pasta /img. -->
+    <div class="header-logos">
+        <img class="header-logo logo-sad" src="img/logo-sad.png" alt="SAD - Secretaria de Administracao"
+             onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s'">
+        <img class="header-logo logo-gesig" src="img/logo-gesig.png" alt="GESIG"
+             onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
+    </div>
+
+    <!-- Zona direita: vazia, so para manter as logos centralizadas. -->
+    <div class="header-lado"></div>
 
 </header>
 
