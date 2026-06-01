@@ -63,7 +63,6 @@ header{
    LOGOS
 ========================= */
 .header-logo{
-    height:72px;
     object-fit:contain;
     transition:0.3s;
 }
@@ -72,9 +71,14 @@ header{
     transform:scale(1.04);
 }
 
+/* Tamanhos por logo (a GESIG e maior para equilibrar com a SAD). */
+.logo-sad{ height:64px; }
+.logo-gesig{ height:92px; }
+
 @media(max-width:600px){
     header{ gap:24px; min-height:84px; padding:14px 16px; }
-    .header-logo{ height:52px; }
+    .logo-sad{ height:46px; }
+    .logo-gesig{ height:66px; }
 }
 
 /* =========================
@@ -697,9 +701,9 @@ header{
 
     <!-- Para trocar pelas logos finais, coloque img/logo-sad.png (esquerda) e -->
     <!-- img/logo-gesig.png (direita) na pasta /img (o fallback remoto e so placeholder). -->
-    <img class="header-logo" src="img/logo-sad.png" alt="SAD - Secretaria de Administracao"
+    <img class="header-logo logo-sad" src="img/logo-sad.png" alt="SAD - Secretaria de Administracao"
          onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s'">
-    <img class="header-logo" src="img/logo-gesig.png" alt="GESIG"
+    <img class="header-logo logo-gesig" src="img/logo-gesig.png" alt="GESIG"
          onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
 
 </header>
