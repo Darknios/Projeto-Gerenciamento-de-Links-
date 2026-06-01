@@ -4,10 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PE Integrado - Escolha a sua Squad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif; }
 
-    .page { background: linear-gradient(150deg,#16438c,#1a4fa0 55%,#2059b8); min-height: 100vh; }
+    /* Fundo com degrade azul animado que desliza suavemente. */
+    .page {
+      background: linear-gradient(150deg, #0a2a66, #16438c, #1a4fa0, #2059b8, #1c4fb0);
+      background-size: 320% 320%;
+      animation: fundoAnimado 20s ease infinite;
+      min-height: 100vh;
+    }
+    @keyframes fundoAnimado {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .page { animation: none; }
+    }
 
     /* HEADER */
     /* Cabecalho com altura padronizada e as duas logos centralizadas. */
@@ -31,13 +48,19 @@
     }
 
     /* TÍTULO */
-    .title-section { padding: 22px 0 18px; text-align: center; }
+    .title-section { padding: 30px 0 22px; text-align: center; }
     .title-section h1 {
       color: #fff;
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: 2px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 3px;
       text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.30);
+      animation: tituloEntra .7s ease both;
+    }
+    @keyframes tituloEntra {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* GRID DE CARDS */
@@ -62,16 +85,20 @@
       padding: 28px 0;
     }
 
-    /* CARD */
+    /* CARD - vidro fosco translucido sobre o fundo azul */
     .squad-card {
-      background: #fff;
-      border-radius: 15px;
-      padding: 14px 14px 12px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 18px;
+      padding: 16px 16px 14px;
       position: relative;
       display: flex;
       flex-direction: column;
       gap: 5px;
-      min-height: 180px;
+      min-height: 184px;
+      box-shadow: 0 10px 32px rgba(8,25,60,0.20);
     }
 
     .status-badge {
@@ -150,25 +177,29 @@
     }
 
     .btn-select {
-      background: #fff;
-      border: 1px solid #1a4fa0;
-      color: #1a4fa0;
+      background: linear-gradient(135deg, #1a4fa0, #2176b8);
+      border: none;
+      color: #fff;
       font-size: 11px;
       font-weight: 600;
-      padding: 5px 16px;
-      border-radius: 5px;
+      letter-spacing: .3px;
+      padding: 7px 18px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.15s;
+      box-shadow: 0 6px 14px rgba(26,79,160,.28);
     }
-    .btn-select:hover { background: #eaf1fb; }
 
-    /* Hover suave nos cards da grade de squads */
-    .squad-card{ transition:transform .25s ease, box-shadow .25s ease; }
-    .squad-card:hover{ transform:translateY(-6px); box-shadow:0 16px 34px rgba(8,25,60,.28); }
+    /* Hover suave nos cards da grade de squads, com borda luminosa */
+    .squad-card{ transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease; }
+    .squad-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 22px 48px rgba(8,25,60,.34), 0 0 0 1px rgba(255,255,255,.35);
+      border-color: rgba(255,255,255,0.85);
+    }
 
-    /* Hover aprimorado no botao de selecionar */
-    .btn-select{ transition:background .2s ease, transform .2s ease, box-shadow .2s ease; }
-    .btn-select:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(26,79,160,.25); }
+    /* Hover do botao de selecionar */
+    .btn-select{ transition:transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+    .btn-select:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(26,79,160,.40); filter:brightness(1.06); }
 
     /* MODAL DE LOGIN */
     .login-modal{
@@ -178,9 +209,12 @@
     }
     .login-modal.aberto{ display:flex; }
     .login-box{
-      background:#fff; width:380px; max-width:100%; border-radius:14px;
-      padding:24px; box-shadow:0 24px 60px rgba(10,30,70,0.35);
-      animation:loginPop .22s ease;
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,0.6);
+      width:380px; max-width:100%; border-radius:18px;
+      padding:26px; box-shadow:0 28px 70px rgba(10,30,70,0.45);
+      animation:loginPop .26s ease;
     }
     @keyframes loginPop{ from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
     .login-box h3{ color:#1a4fa0; margin-bottom:4px; font-size:20px; }

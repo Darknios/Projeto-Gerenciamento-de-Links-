@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Portal PE Integrado</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 
 /* =========================
@@ -14,16 +18,27 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:'Poppins',Arial,Helvetica,sans-serif;
 }
 
 /* =========================
    BODY
+   Fundo com degrade azul animado que desliza suavemente.
 ========================= */
 body{
-    background:linear-gradient(135deg,#003097,#0048d6 55%,#005eff);
+    background:linear-gradient(135deg,#001f6b,#003097,#0048d6,#005eff,#0a4fd6);
+    background-size:320% 320%;
+    animation:fundoAnimado 20s ease infinite;
     min-height:100vh;
     color:#fff;
+}
+@keyframes fundoAnimado{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+@media (prefers-reduced-motion: reduce){
+    body{ animation:none; }
 }
 
 /* =========================
@@ -76,11 +91,21 @@ header{
     letter-spacing:6px;
     color:#fff;
     display:inline-block;
-    padding:8px 18px 12px;
+    padding:12px 26px 14px;
     border-bottom:4px solid #f2c94c;
-    border-radius:2px;
-    background:rgba(0,45,150,0.28);
-    text-shadow:0 3px 8px rgba(0,0,0,0.25);
+    border-radius:12px;
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.18);
+    border-bottom:4px solid #f2c94c;
+    box-shadow:0 12px 30px rgba(0,0,0,0.20);
+    text-shadow:0 3px 10px rgba(0,0,0,0.30);
+    animation:tituloEntra .7s ease both;
+}
+@keyframes tituloEntra{
+    from{ opacity:0; transform:translateY(-10px); }
+    to{ opacity:1; transform:translateY(0); }
 }
 
 @media (max-width: 768px) {
@@ -162,25 +187,29 @@ header{
 }
 
 .card{
-    background:#fff;
-    border:none;
-    border-radius:14px;
+    background:rgba(255,255,255,0.90);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.55);
+    border-radius:18px;
     min-height:242px;
     padding:32px 16px;
     text-align:center;
     cursor:pointer;
-    transition:0.3s;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
     position:relative;
     overflow:hidden;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    box-shadow:0 10px 30px rgba(8,25,60,0.18);
 }
 
 .card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    transform:translateY(-10px);
+    box-shadow:0 26px 50px rgba(8,25,60,0.34), 0 0 0 1px rgba(255,255,255,0.4);
+    border-color:rgba(255,255,255,0.85);
 }
 
 .card img{
@@ -192,7 +221,11 @@ header{
     border-radius:0;
     background:transparent;
     box-shadow:none;
-    transition:0.3s;
+    transition:transform .3s ease;
+}
+
+.card:hover img{
+    transform:scale(1.08) translateY(-2px);
 }
 
 .card h3{
@@ -223,27 +256,29 @@ header{
     align-items:center;
     z-index:999;
     padding:16px;
-    backdrop-filter:blur(6px);
+    backdrop-filter:blur(8px);
 }
 
 .modal-content{
     width:620px;
     max-width:100%;
-    background:#fff;
-    border-radius:12px;
+    background:rgba(255,255,255,0.96);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-radius:18px;
     overflow:hidden;
-    animation:animar 0.3s ease;
-    border:1px solid rgba(255,255,255,0.22);
-    box-shadow:0 28px 70px rgba(15,23,42,0.34);
+    animation:animar 0.32s cubic-bezier(.2,.9,.3,1.2);
+    border:1px solid rgba(255,255,255,0.5);
+    box-shadow:0 34px 80px rgba(15,23,42,0.45);
 }
 
 @keyframes animar{
     from{
-        transform:scale(0.8);
+        transform:scale(0.86) translateY(12px);
         opacity:0;
     }
     to{
-        transform:scale(1);
+        transform:scale(1) translateY(0);
         opacity:1;
     }
 }
