@@ -21,7 +21,7 @@
    BODY
 ========================= */
 body{
-    background:linear-gradient(135deg,#003cb3,#005eff);
+    background:linear-gradient(135deg,#003097,#0048d6 55%,#005eff);
     min-height:100vh;
     color:#fff;
 }
@@ -529,6 +529,29 @@ header{
     box-shadow:0 8px 18px rgba(15,23,42,0.04);
 }
 
+/* Animacao de entrada em cascata dos cards de categoria */
+@keyframes cardEntra{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+.card{ opacity:0; animation:cardEntra .45s ease forwards; }
+.cards .card:nth-child(1){ animation-delay:.05s; }
+.cards .card:nth-child(2){ animation-delay:.10s; }
+.cards .card:nth-child(3){ animation-delay:.15s; }
+.cards .card:nth-child(4){ animation-delay:.20s; }
+.cards .card:nth-child(5){ animation-delay:.25s; }
+.cards .card:nth-child(6){ animation-delay:.30s; }
+.cards .card:nth-child(7){ animation-delay:.35s; }
+
+/* Brilho sutil ao passar o mouse sobre os cards */
+.card::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 50% 0%, rgba(0,94,255,.10), transparent 70%);
+  opacity:0; transition:opacity .3s ease; pointer-events:none;
+}
+.card:hover::after{ opacity:1; }
+
+/* Transicao de saida animada do link ao ser excluido */
+.link-item{ transition:opacity .25s ease, transform .25s ease; }
+.link-item.saindo{ opacity:0; transform:translateX(12px); }
+
 @media (prefers-reduced-motion: reduce){
     *,
     *::before,
@@ -821,6 +844,11 @@ async function deletarLink(id){
     if(!confirmar){
         return;
     }
+
+    // Marca o item para animar a saida antes de remover de fato.
+    const botao = document.querySelector(`.btn-deletar[onclick="deletarLink(${id})"]`);
+    const item = botao ? botao.closest(".link-item") : null;
+    if (item) item.classList.add("saindo");
 
     const { error } = await supabaseClient
         .from("links")

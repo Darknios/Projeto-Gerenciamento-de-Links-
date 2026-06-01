@@ -7,7 +7,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
 
-    .page { background: #1a4fa0; min-height: 100vh; }
+    .page { background: linear-gradient(150deg,#16438c,#1a4fa0 55%,#2059b8); min-height: 100vh; }
 
     /* HEADER */
     .header {
@@ -153,6 +153,14 @@
     }
     .btn-select:hover { background: #eaf1fb; }
 
+    /* Hover suave nos cards da grade de squads */
+    .squad-card{ transition:transform .25s ease, box-shadow .25s ease; }
+    .squad-card:hover{ transform:translateY(-6px); box-shadow:0 16px 34px rgba(8,25,60,.28); }
+
+    /* Hover aprimorado no botao de selecionar */
+    .btn-select{ transition:background .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .btn-select:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(26,79,160,.25); }
+
     /* MODAL DE LOGIN */
     .login-modal{
       position:fixed; inset:0; background:rgba(10,30,70,0.55);
@@ -180,6 +188,23 @@
     .login-entrar{ background:linear-gradient(135deg,#1a4fa0,#2176b8); color:#fff; }
     .login-entrar:hover{ transform:translateY(-1px); }
     .login-entrar:disabled{ opacity:.6; cursor:wait; }
+
+    /* Animacao de entrada em cascata dos cards de squad */
+    @keyframes cardEntra{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+    .squad-card{ opacity:0; animation:cardEntra .45s ease forwards; }
+    .cards-grid .squad-card:nth-child(1){ animation-delay:.04s; }
+    .cards-grid .squad-card:nth-child(2){ animation-delay:.08s; }
+    .cards-grid .squad-card:nth-child(3){ animation-delay:.12s; }
+    .cards-grid .squad-card:nth-child(4){ animation-delay:.16s; }
+    .cards-grid .squad-card:nth-child(5){ animation-delay:.20s; }
+    .cards-grid .squad-card:nth-child(6){ animation-delay:.24s; }
+    .cards-grid .squad-card:nth-child(7){ animation-delay:.28s; }
+    .cards-grid .squad-card:nth-child(8){ animation-delay:.32s; }
+
+    /* Respeita preferencia do usuario por menos movimento */
+    @media (prefers-reduced-motion: reduce){
+      .squad-card{ animation:none; opacity:1; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js" defer></script>
