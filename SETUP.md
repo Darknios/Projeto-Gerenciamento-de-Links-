@@ -107,3 +107,76 @@ on conflict (key) do update set
 
 Categorias validas (chaves usadas na coluna `categorias`):
 `reunioes`, `planilhas`, `ticket`, `apresentacoes`, `prototipo`, `homologacao`, `gravacao`.
+
+## 7. Gestao de cards pela squad (tabela `categorias` + Storage)
+
+### 7.1 Tabela `categorias`
+Cada linha e um card de link de uma squad. Em SQL Editor:
+
+```sql
+create table if not exists public.categorias (
+  id bigint generated always as identity primary key,
+  squad text not null,
+  slug text not null,
+  titulo text not null,
+  icone text,
+  busca boolean not null default false,
+  ordem int not null default 0,
+  ativo boolean not null default true,
+  criado_em timestamptz not null default now(),
+  unique (squad, slug)
+);
+
+alter table public.categorias enable row level security;
+
+drop policy if exists "categorias da squad" on public.categorias;
+create policy "categorias da squad"
+on public.categorias
+for all
+to authenticated
+using ( squad = split_part( (auth.jwt() ->> 'email'), '@', 1 ) )
+with check ( squad = split_part( (auth.jwt() ->> 'email'), '@', 1 ) );
+```
+
+### 7.2 Popular os 7 cards padrao para cada squad existente
+```sql
+insert into public.categorias (squad, slug, titulo, icone, busca, ordem, ativo)
+select s.key, d.slug, d.titulo, d.icone, d.busca, d.ordem, true
+from public.squads s
+cross join (values
+  ('reunioes','Links de Reunioes','https://cdn-icons-png.flaticon.com/512/5968/5968552.png', false, 1),
+  ('planilhas','Planilhas','https://cdn-icons-png.flaticon.com/512/732/732220.png', false, 2),
+  ('ticket','Tickets - SICX','https://cdn-icons-png.flaticon.com/512/5968/5968875.png', true, 3),
+  ('apresentacoes','Apresentacoes','https://cdn-icons-png.flaticon.com/512/3131/3131631.png', false, 4),
+  ('prototipo','Prototipos','https://cdn-icons-png.flaticon.com/512/1055/1055687.png', false, 5),
+  ('homologacao','Ambiente de Homologacao','https://cdn-icons-png.flaticon.com/512/3064/3064197.png', false, 6),
+  ('gravacao','Gravacoes','https://cdn-icons-png.flaticon.com/512/4315/4315744.png', false, 7)
+) as d(slug, titulo, icone, busca, ordem)
+on conflict (squad, slug) do nothing;
+```
+
+### 7.3 Bucket de imagens no Storage
+1. Menu lateral > Storage > Create a new bucket.
+2. Nome: `icones`. Marque Public bucket. Create.
+3. Em SQL Editor, aplique as politicas (leitura publica; escrita so na pasta da propria squad):
+
+```sql
+drop policy if exists "icones leitura publica" on storage.objects;
+create policy "icones leitura publica"
+on storage.objects for select
+to anon, authenticated
+using ( bucket_id = 'icones' );
+
+drop policy if exists "icones escrita da squad" on storage.objects;
+create policy "icones escrita da squad"
+on storage.objects for all
+to authenticated
+using (
+  bucket_id = 'icones'
+  and (storage.foldername(name))[1] = split_part( (auth.jwt() ->> 'email'), '@', 1 )
+)
+with check (
+  bucket_id = 'icones'
+  and (storage.foldername(name))[1] = split_part( (auth.jwt() ->> 'email'), '@', 1 )
+);
+```
