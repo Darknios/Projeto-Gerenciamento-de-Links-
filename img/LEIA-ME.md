@@ -3,9 +3,9 @@
 Coloque aqui as imagens com os nomes exatos abaixo e elas aparecem sozinhas no site.
 Enquanto um arquivo nao existir, o site mostra um placeholder remoto (nada quebra).
 
-## Logos do cabecalho (as duas paginas)
-- `logo-estado.png` ... logo do Estado (fica a esquerda)
-- `logo-gesig.png` .... logo da GESIG (fica a direita)
+## Logos do cabecalho (valem para as duas paginas de uma vez)
+- `logo-sad.png` ..... logo da SAD (fica a esquerda)
+- `logo-gesig.png` ... logo da GESIG (fica a direita)
 
 Dica: PNG com fundo transparente fica melhor. Altura ideal por volta de 72px.
 
