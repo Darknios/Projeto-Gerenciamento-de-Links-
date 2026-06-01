@@ -99,16 +99,6 @@ header{
 .header-lado:last-child{ justify-content:flex-end; }
 .header-logos{ display:flex; align-items:center; gap:52px; }
 
-/* Botao de voltar para a pagina inicial. */
-.btn-voltar{
-    display:inline-flex; align-items:center; gap:6px;
-    text-decoration:none; color:#1a4fa0;
-    border:1px solid #1a4fa0; border-radius:999px;
-    padding:8px 15px; font-size:13px; font-weight:600;
-    background:#fff; transition:.2s ease; white-space:nowrap;
-}
-.btn-voltar:hover{ background:#eaf1fb; transform:translateX(-2px); }
-
 /* Botao de sair (logout). */
 .btn-sair{
     display:inline-flex; align-items:center; gap:6px;
@@ -116,7 +106,7 @@ header{
     padding:8px 15px; font-size:13px; font-weight:600;
     background:#fff; cursor:pointer; transition:.2s ease; white-space:nowrap;
 }
-.btn-sair:hover{ background:#fdeceb; transform:translateX(2px); }
+.btn-sair:hover{ background:#fdeceb; }
 
 /* Toasts (mensagens rapidas no canto inferior direito). */
 .toast-container{
@@ -156,8 +146,8 @@ header{
     .logo-sad{ height:42px; }
     .logo-gesig{ height:58px; }
     /* No celular, o botao fica so com a seta para economizar espaco. */
-    .btn-voltar span, .btn-sair span{ display:none; }
-    .btn-voltar, .btn-sair{ padding:8px; }
+    .btn-sair span{ display:none; }
+    .btn-sair{ padding:8px; }
 }
 
 /* =========================
@@ -823,15 +813,16 @@ header{
 ========================= -->
 <header>
 
-    <!-- Zona esquerda: botao de voltar para a pagina inicial (selecao de squad). -->
+    <!-- Zona esquerda: botao de sair (encerra a sessao e volta para a selecao). -->
     <div class="header-lado">
-        <a href="Pagina_inicial.html" class="btn-voltar" aria-label="Voltar para a pagina inicial">
+        <button type="button" class="btn-sair" onclick="sairDaSquad()" aria-label="Sair">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 12H5"/>
-                <path d="M12 19l-7-7 7-7"/>
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <path d="M16 17l5-5-5-5"/>
+                <path d="M21 12H9"/>
             </svg>
-            <span>Voltar</span>
-        </a>
+            <span>Sair</span>
+        </button>
     </div>
 
     <!-- Centro: as duas logos. Para trocar pelas finais, coloque -->
@@ -843,17 +834,8 @@ header{
              onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
     </div>
 
-    <!-- Zona direita: botao de sair (encerra a sessao da squad). -->
-    <div class="header-lado">
-        <button type="button" class="btn-sair" onclick="sairDaSquad()" aria-label="Sair">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <path d="M16 17l5-5-5-5"/>
-                <path d="M21 12H9"/>
-            </svg>
-            <span>Sair</span>
-        </button>
-    </div>
+    <!-- Zona direita: vazia, so para manter as logos centralizadas. -->
+    <div class="header-lado"></div>
 
 </header>
 
