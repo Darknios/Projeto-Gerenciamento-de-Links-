@@ -289,6 +289,16 @@ header{
     margin-bottom:16px;
 }
 
+/* Descricao/explicacao do card de categoria (subtitulo abaixo do nome). */
+.card-desc-cat{
+    color:#5b6b86;
+    font-size:13px;
+    font-weight:500;
+    line-height:1.35;
+    margin:-8px 0 16px;
+    max-width:92%;
+}
+
 .linha{
     width:62px;
     height:3px;
@@ -864,6 +874,9 @@ header{
                 <label>Nome do card</label>
                 <input type="text" id="cardTitulo" placeholder="Ex.: Documentos">
 
+                <label>Descricao (opcional)</label>
+                <input type="text" id="cardDescricao" placeholder="Ex.: planilhas e relatorios da squad">
+
                 <label class="card-check">
                     <input type="checkbox" id="cardBusca"> Mostrar barra de busca neste card
                 </label>
@@ -911,6 +924,7 @@ function montarCardsDeCategoria(){
              ${editandoCards ? "" : `onclick="abrirModal('${escaparAtributo(cat.slug)}')"`}>
             <img src="${escaparAtributo(cat.icone)}" alt="">
             <h3>${escaparHTML((cat.titulo || "").toUpperCase())}</h3>
+            ${cat.descricao ? `<p class="card-desc-cat">${escaparHTML(cat.descricao)}</p>` : ""}
             <div class="linha"></div>
             <div class="card-controles">
                 <label class="switch" title="Mostrar este card">
@@ -1332,7 +1346,7 @@ function escaparAtributo(texto){
 async function carregarCategorias(){
     const { data, error } = await supabaseClient
         .from("categorias")
-        .select("id, squad, slug, titulo, icone, busca, ordem, ativo")
+        .select("id, squad, slug, titulo, descricao, icone, busca, ordem, ativo")
         .eq("squad", squadAtual)
         .order("ordem", { ascending: true });
 
@@ -1359,6 +1373,7 @@ function abrirNovoCard(){
     cardEditId = null;
     document.getElementById("tituloModalCard").textContent = "Novo card";
     document.getElementById("cardTitulo").value = "";
+    document.getElementById("cardDescricao").value = "";
     document.getElementById("cardBusca").checked = false;
     document.getElementById("cardImagem").value = "";
     document.getElementById("cardPreview").removeAttribute("src");
@@ -1372,6 +1387,7 @@ function abrirEdicaoCard(id){
     cardEditId = id;
     document.getElementById("tituloModalCard").textContent = "Editar card";
     document.getElementById("cardTitulo").value = cat.titulo || "";
+    document.getElementById("cardDescricao").value = cat.descricao || "";
     document.getElementById("cardBusca").checked = !!cat.busca;
     document.getElementById("cardImagem").value = "";
     const prev = document.getElementById("cardPreview");
@@ -1417,6 +1433,7 @@ async function uploadIcone(file){
 
 async function salvarCard(){
     const titulo = document.getElementById("cardTitulo").value.trim();
+    const descricao = document.getElementById("cardDescricao").value.trim();
     const busca = document.getElementById("cardBusca").checked;
     const fileInput = document.getElementById("cardImagem");
     const file = fileInput.files && fileInput.files[0];
@@ -1441,6 +1458,7 @@ async function salvarCard(){
                 squad: squadAtual,
                 slug: "c" + Date.now(),
                 titulo: titulo,
+                descricao: descricao,
                 busca: busca,
                 ordem: ordem,
                 ativo: true,
@@ -1448,7 +1466,7 @@ async function salvarCard(){
             });
             if (error){ throw error; }
         } else {
-            const update = { titulo: titulo, busca: busca };
+            const update = { titulo: titulo, descricao: descricao, busca: busca };
             if (iconeUrl){ update.icone = iconeUrl; }
             const { error } = await supabaseClient.from("categorias").update(update).eq("id", cardEditId);
             if (error){ throw error; }

@@ -121,6 +121,7 @@ create table if not exists public.categorias (
   squad text not null,
   slug text not null,
   titulo text not null,
+  descricao text,
   icone text,
   busca boolean not null default false,
   ordem int not null default 0,
@@ -128,6 +129,9 @@ create table if not exists public.categorias (
   criado_em timestamptz not null default now(),
   unique (squad, slug)
 );
+
+-- se a tabela ja existia sem a coluna descricao, adiciona:
+alter table public.categorias add column if not exists descricao text;
 
 alter table public.categorias enable row level security;
 
