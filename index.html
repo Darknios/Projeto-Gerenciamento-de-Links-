@@ -629,8 +629,12 @@ header{
 ========================= -->
 <header>
 
-    <img class="header-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s" alt="Governo de Pernambuco">
-    <img class="header-logo" src="https://www.sad.pe.gov.br/images/images/PE-Integrado.png" alt="PE Integrado">
+    <!-- Para trocar pelas logos finais, coloque img/logo-estado.png e -->
+    <!-- img/logo-gesig.png na pasta /img (o fallback remoto e so placeholder). -->
+    <img class="header-logo" src="img/logo-estado.png" alt="Governo do Estado de Pernambuco"
+         onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s'">
+    <img class="header-logo" src="img/logo-gesig.png" alt="GESIG"
+         onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
 
 </header>
 
@@ -705,7 +709,8 @@ function montarCardsDeCategoria(listaCategorias){
 
     cards.innerHTML = habilitadas.map(key => `
         <div class="card" onclick="abrirModal('${key}')">
-            <img src="${CATEGORIAS[key].icone}" alt="">
+            <img src="${CATEGORIAS[key].icone}" alt=""
+                 onerror="this.onerror=null;this.src='${CATEGORIAS[key].fallback}'">
             <h3>${escaparHTML(CATEGORIAS[key].titulo.toUpperCase())}</h3>
             <div class="linha"></div>
         </div>

@@ -257,11 +257,14 @@
 <div class="page">
 
   <!-- HEADER -->
-  <!-- Duas logos centralizadas. As logos finais (SAD e GESIG) serao trocadas -->
-  <!-- depois: basta substituir o src de cada imagem. -->
+  <!-- Logos centralizadas. Para trocar pelas finais, basta colocar os arquivos -->
+  <!-- img/logo-estado.png e img/logo-gesig.png na pasta /img. Enquanto nao -->
+  <!-- existirem, aparece a logo remota de placeholder (fallback no onerror). -->
   <div class="header">
-    <img class="header-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s" alt="Governo de Pernambuco">
-    <img class="header-logo" src="https://www.sad.pe.gov.br/images/images/PE-Integrado.png" alt="PE Integrado">
+    <img class="header-logo" src="img/logo-estado.png" alt="Governo do Estado de Pernambuco"
+         onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s'">
+    <img class="header-logo" src="img/logo-gesig.png" alt="GESIG"
+         onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
   </div>
 
   <!-- TÍTULO -->
@@ -337,7 +340,8 @@
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon">
-            <img class="squad-icon" src="${escapar(squad.icone)}" alt="Icone da squad ${escapar(squad.nome)}">
+            <img class="squad-icon" src="${escapar(squad.icone)}" alt="Icone da squad ${escapar(squad.nome)}"
+                 onerror="this.style.display='none'">
           </div>
           <div class="card-info">
             <div class="card-label">Squad</div>
