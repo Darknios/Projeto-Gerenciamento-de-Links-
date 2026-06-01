@@ -93,7 +93,7 @@ header{
 }
 
 /* =========================
-   TÍTULO PRINCIPAL - SQUARD ARIANO SUASSUNA (adicionado conforme imagem)
+   TÍTULO PRINCIPAL - SQUAD ARIANO SUASSUNA (adicionado conforme imagem)
 ========================= */
 .squad-title {
     text-align: center;
@@ -541,6 +541,7 @@ header{
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js" defer></script>
 </head>
 <body>
 
@@ -567,7 +568,7 @@ header{
      TÍTULO SQUARD - ARIANO SUASSUNA (ADICIONADO DE ACORDO COM A IMAGEM)
 ========================= -->
 <div class="squad-title">
-    <h1>SQUARD - ARIANO SUASSUNA</h1>
+    <h1>SQUAD</h1>
 </div>
 
 <!-- =========================
@@ -652,18 +653,9 @@ header{
 
 <script>
 
-/* =========================
-   CONFIGURAÇÃO DO SUPABASE
-   Troque pelos dados do seu projeto:
-   Supabase > Project Settings > API
-========================= */
-const SUPABASE_URL = "https://lsrdtgkmhydcstsvsrzr.supabase.co/";
-const SUPABASE_ANON_KEY = "sb_publishable_VaYVzVFQ39UzrH081idygA_G2Ogsj_4";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 let categoriaAtual = null;
 let canalTempoReal = null;
+let squadAtual = null;
 
 /* =========================
    TÍTULOS DAS CATEGORIAS
@@ -923,6 +915,30 @@ function escaparAtributo(texto){
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
 }
+
+/* =========================
+   INICIALIZACAO + PROTECAO DE ACESSO
+========================= */
+async function iniciarPagina(){
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  // Sem login, volta para a tela de selecao.
+  if (!session){
+    window.location.href = "Pagina_inicial.html";
+    return;
+  }
+
+  squadAtual = squadDoEmail(session.user.email);
+  const info = SQUADS[squadAtual];
+
+  // Titulo dinamico (corrige "SQUARD" para "SQUAD").
+  const tituloSquad = document.querySelector(".squad-title h1");
+  if (tituloSquad){
+    tituloSquad.textContent = "SQUAD - " + (info ? info.nome.toUpperCase() : squadAtual.toUpperCase());
+  }
+}
+
+iniciarPagina();
 
 </script>
 
