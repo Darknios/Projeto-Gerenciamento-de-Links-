@@ -83,11 +83,16 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       text-shadow: 0 4px 18px rgba(0,0,0,0.30);
-      animation: tituloEntra .7s ease both;
+      animation: tituloEntra .7s ease both, tituloPulsar 3.2s ease-in-out .7s infinite;
     }
     @keyframes tituloEntra {
       from { opacity: 0; transform: translateY(-10px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+    /* Pulsar suave: leve respiro com um brilho. */
+    @keyframes tituloPulsar {
+      0%,100% { transform: scale(1); text-shadow: 0 4px 18px rgba(0,0,0,0.30); }
+      50%     { transform: scale(1.02); text-shadow: 0 4px 18px rgba(0,0,0,0.30), 0 0 18px rgba(255,255,255,0.5); }
     }
 
     /* GRID DE CARDS */
@@ -101,7 +106,20 @@
     }
 
     /* Icone da squad (SVG vindo da pasta /img, definido na tabela squads). */
-    .squad-icon { width: 46px; height: 46px; object-fit: contain; }
+    .squad-icon {
+      width: 46px; height: 46px; object-fit: contain;
+      transition: transform .25s ease;
+      animation: balancar 3.6s ease-in-out infinite;
+    }
+    /* Balanco leve e continuo dos icones. */
+    @keyframes balancar {
+      0%,100% { transform: rotate(-4deg); }
+      50%     { transform: rotate(4deg); }
+    }
+    .cards-grid .squad-card:nth-child(even) .squad-icon { animation-duration: 4.1s; animation-delay: .4s; }
+    .cards-grid .squad-card:nth-child(3n) .squad-icon { animation-duration: 4.5s; animation-delay: .2s; }
+    /* Ao passar o mouse no card, o icone para de balancar e da um leve zoom. */
+    .squad-card:hover .squad-icon { animation: none; transform: scale(1.12); }
 
     /* Mensagem de carregamento/erro da lista de squads. */
     .squads-aviso {
@@ -283,6 +301,7 @@
     /* Respeita preferencia do usuario por menos movimento */
     @media (prefers-reduced-motion: reduce){
       .squad-card{ animation:none; opacity:1; }
+      .title-section h1, .squad-icon{ animation:none; }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

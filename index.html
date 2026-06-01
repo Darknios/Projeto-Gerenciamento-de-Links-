@@ -155,11 +155,16 @@ header{
     border-bottom:4px solid #f2c94c;
     box-shadow:0 12px 30px rgba(0,0,0,0.20);
     text-shadow:0 3px 10px rgba(0,0,0,0.30);
-    animation:tituloEntra .7s ease both;
+    animation:tituloEntra .7s ease both, tituloPulsar 3.2s ease-in-out .7s infinite;
 }
 @keyframes tituloEntra{
     from{ opacity:0; transform:translateY(-10px); }
     to{ opacity:1; transform:translateY(0); }
+}
+/* Pulsar suave: leve respiro com um brilho dourado. */
+@keyframes tituloPulsar{
+    0%,100%{ transform:scale(1); box-shadow:0 12px 30px rgba(0,0,0,0.20); }
+    50%{ transform:scale(1.015); box-shadow:0 14px 40px rgba(242,201,76,0.42), 0 0 22px rgba(242,201,76,0.22); }
 }
 
 @media (max-width: 768px) {
@@ -263,11 +268,22 @@ header{
     border-radius:0;
     background:transparent;
     box-shadow:none;
-    transition:transform .3s ease;
+    transition:transform .25s ease;
+    animation:balancar 3.4s ease-in-out infinite;
 }
 
+/* Icones balancam de leve continuamente; cada card com um tempo diferente para nao sincronizar. */
+@keyframes balancar{
+    0%,100%{ transform:rotate(-4deg); }
+    50%{ transform:rotate(4deg); }
+}
+.cards .card:nth-child(even) img{ animation-duration:3.9s; animation-delay:.5s; }
+.cards .card:nth-child(3n) img{ animation-duration:4.3s; animation-delay:.2s; }
+
+/* Ao passar o mouse, o icone para de balancar e da um leve zoom. */
 .card:hover img{
-    transform:scale(1.08) translateY(-2px);
+    animation:none;
+    transform:scale(1.12);
 }
 
 .card h3{
