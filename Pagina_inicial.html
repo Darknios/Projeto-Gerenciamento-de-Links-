@@ -152,7 +152,37 @@
       transition: background 0.15s;
     }
     .btn-select:hover { background: #eaf1fb; }
+
+    /* MODAL DE LOGIN */
+    .login-modal{
+      position:fixed; inset:0; background:rgba(10,30,70,0.55);
+      backdrop-filter:blur(5px);
+      display:none; align-items:center; justify-content:center; z-index:999; padding:16px;
+    }
+    .login-modal.aberto{ display:flex; }
+    .login-box{
+      background:#fff; width:380px; max-width:100%; border-radius:14px;
+      padding:24px; box-shadow:0 24px 60px rgba(10,30,70,0.35);
+      animation:loginPop .22s ease;
+    }
+    @keyframes loginPop{ from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+    .login-box h3{ color:#1a4fa0; margin-bottom:4px; font-size:20px; }
+    .login-sub{ color:#666; font-size:13px; margin-bottom:16px; }
+    .login-box input{
+      width:100%; padding:12px 14px; border:1px solid #cdd9ec; border-radius:8px;
+      font-size:15px; outline:none; transition:.2s;
+    }
+    .login-box input:focus{ border-color:#1a4fa0; box-shadow:0 0 0 3px rgba(26,79,160,.12); }
+    .login-erro{ color:#c0392b; font-size:13px; min-height:18px; margin:8px 2px 0; }
+    .login-acoes{ display:flex; gap:10px; margin-top:14px; }
+    .login-acoes button{ flex:1; padding:11px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; border:none; transition:.2s; }
+    .login-cancelar{ background:#eef2f8; color:#334155; }
+    .login-entrar{ background:linear-gradient(135deg,#1a4fa0,#2176b8); color:#fff; }
+    .login-entrar:hover{ transform:translateY(-1px); }
+    .login-entrar:disabled{ opacity:.6; cursor:wait; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js" defer></script>
 </head>
 <body>
 
@@ -225,7 +255,7 @@
     <div class="cards-grid">
 
       <!-- Squad 1 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="ariano">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon"><span class="emoji-icon">🪔</span></div>
@@ -240,7 +270,7 @@
       </div>
 
       <!-- Squad 2 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="gonzaga">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon"><span class="emoji-icon">🪗</span></div>
@@ -255,7 +285,7 @@
       </div>
 
       <!-- Squad 3 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="clarice">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon">
@@ -277,7 +307,7 @@
       </div>
 
       <!-- Squad 4 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="manuel">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon"><span class="emoji-icon">🏙️</span></div>
@@ -292,7 +322,7 @@
       </div>
 
       <!-- Squad 5 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="frei">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon">
@@ -318,7 +348,7 @@
       </div>
 
       <!-- Squad 6 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="joao">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon"><span class="emoji-icon">🌵</span></div>
@@ -333,7 +363,7 @@
       </div>
 
       <!-- Squad 7 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="chico">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon"><span class="emoji-icon">🦀</span></div>
@@ -348,7 +378,7 @@
       </div>
 
       <!-- Squad 8 -->
-      <div class="squad-card">
+      <div class="squad-card" data-squad="clementina">
         <div class="status-badge"><span class="dot-green"></span> Ativo</div>
         <div class="card-top">
           <div class="card-icon"><span class="emoji-icon">🎤</span></div>
@@ -366,5 +396,75 @@
   </div>
 </div>
 
+<!-- Modal de autenticacao da squad -->
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <h3 id="loginTitulo">Acessar squad</h3>
+    <p class="login-sub" id="loginSub"></p>
+    <input type="password" id="loginSenha" placeholder="Senha da squad" autocomplete="off">
+    <div class="login-erro" id="loginErro"></div>
+    <div class="login-acoes">
+      <button class="login-cancelar" id="loginCancelar">Cancelar</button>
+      <button class="login-entrar" id="loginEntrar">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Squad escolhida no momento (preenchida ao clicar em Selecionar).
+  let squadSelecionada = null;
+
+  const modal   = document.getElementById("loginModal");
+  const titulo  = document.getElementById("loginTitulo");
+  const sub     = document.getElementById("loginSub");
+  const senhaEl = document.getElementById("loginSenha");
+  const erroEl  = document.getElementById("loginErro");
+  const btnEntrar = document.getElementById("loginEntrar");
+
+  // Abrir o modal ao clicar em "Selecionar".
+  document.querySelectorAll(".squad-card").forEach(card => {
+    const botao = card.querySelector(".btn-select");
+    botao.addEventListener("click", () => {
+      squadSelecionada = card.getAttribute("data-squad");
+      const info = SQUADS[squadSelecionada];
+      titulo.textContent = "Acessar squad";
+      sub.textContent = info ? info.nome : "";
+      erroEl.textContent = "";
+      senhaEl.value = "";
+      modal.classList.add("aberto");
+      senhaEl.focus();
+    });
+  });
+
+  function fecharLogin(){ modal.classList.remove("aberto"); }
+  document.getElementById("loginCancelar").addEventListener("click", fecharLogin);
+  modal.addEventListener("click", e => { if (e.target === modal) fecharLogin(); });
+
+  // Tenta autenticar a squad com a senha digitada.
+  async function entrar(){
+    const senha = senhaEl.value.trim();
+    if (!senha){ erroEl.textContent = "Digite a senha."; return; }
+
+    btnEntrar.disabled = true;
+    erroEl.textContent = "";
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email: emailDaSquad(squadSelecionada),
+      password: senha,
+    });
+
+    btnEntrar.disabled = false;
+
+    if (error){
+      erroEl.textContent = "Senha incorreta. Tente novamente.";
+      senhaEl.select();
+      return;
+    }
+    window.location.href = "index.html";
+  }
+
+  btnEntrar.addEventListener("click", entrar);
+  senhaEl.addEventListener("keyup", e => { if (e.key === "Enter") entrar(); });
+</script>
 </body>
 </html>
