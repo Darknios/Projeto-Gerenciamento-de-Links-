@@ -608,6 +608,61 @@ header{
 .btn-edit-salvar{ background:linear-gradient(135deg,#0b57d0,#07439d); color:#fff; }
 .btn-edit-cancelar{ background:#eef2f8; color:#334155; }
 
+/* Barra de acoes da pagina (engrenagem). */
+.acoes-pagina{ display:flex; justify-content:center; margin:-22px 0 26px; }
+.btn-editar-cards{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.12); color:#fff;
+    border:1px solid rgba(255,255,255,0.28); border-radius:999px;
+    padding:9px 18px; font-size:13px; font-weight:600; cursor:pointer;
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:.2s ease;
+}
+.btn-editar-cards:hover{ background:rgba(255,255,255,0.20); }
+.btn-editar-cards.ativo{ background:#f2c94c; color:#1f2937; border-color:#f2c94c; }
+
+/* No modo edicao de cards o grid mostra cards inativos esmaecidos. */
+.cards.editando-cards .card.inativo{ opacity:.45; }
+
+/* Barra de controles dentro de cada card (so no modo edicao). */
+.card-controles{ display:none; }
+.cards.editando-cards .card .card-controles{
+    display:flex; gap:6px; align-items:center; justify-content:center;
+    margin-top:14px; flex-wrap:wrap;
+}
+.card-controles button{
+    border:none; border-radius:8px; width:32px; height:32px; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#eef2f8; color:#334155; transition:.2s ease;
+}
+.card-controles button:hover{ background:#dde6f5; color:#0b57d0; }
+.card-controles .excluir:hover{ background:#fee2e2; color:#b91c1c; }
+
+/* Switch (liga/desliga o card). */
+.switch{ position:relative; display:inline-block; width:42px; height:24px; }
+.switch input{ opacity:0; width:0; height:0; }
+.switch span{
+    position:absolute; inset:0; background:#cdd5e1; border-radius:999px; transition:.2s;
+}
+.switch span::before{
+    content:""; position:absolute; height:18px; width:18px; left:3px; top:3px;
+    background:#fff; border-radius:50%; transition:.2s;
+}
+.switch input:checked + span{ background:#27ae60; }
+.switch input:checked + span::before{ transform:translateX(18px); }
+
+/* No modo edicao, o card nao navega ao clicar (so os controles agem). */
+.cards.editando-cards .card{ cursor:default; }
+
+/* Cartao "Novo card". */
+.card-novo{
+    display:none; align-items:center; justify-content:center;
+    border:2px dashed rgba(255,255,255,0.6); border-radius:18px; min-height:242px;
+    color:#fff; font-weight:700; font-size:15px; cursor:pointer; background:rgba(255,255,255,0.06);
+    transition:.2s ease;
+}
+.cards.editando-cards .card-novo{ display:flex; }
+.card-novo:hover{ background:rgba(255,255,255,0.14); }
+
 @media (prefers-reduced-motion: reduce){
     *,
     *::before,
@@ -643,6 +698,19 @@ header{
 ========================= -->
 <div class="squad-title">
     <h1>SQUAD</h1>
+</div>
+
+<!-- =========================
+     ACOES DA PAGINA - botao de gerenciar cards (modo de edicao de cards)
+========================= -->
+<div class="acoes-pagina">
+    <button id="btnEditarCards" class="btn-editar-cards" onclick="alternarEdicaoCards()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Gerenciar cards</span>
+    </button>
 </div>
 
 <!-- =========================
