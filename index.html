@@ -720,7 +720,8 @@ async function carregarLinks(tipo){
 
     const { data, error } = await supabaseClient
         .from("links")
-        .select("id, categoria, nome, url, criado_em")
+        .select("id, squad, categoria, nome, url, criado_em")
+        .eq("squad", squadAtual)
         .eq("categoria", tipo)
         .order("id", { ascending: true });
 
@@ -794,6 +795,7 @@ async function adicionarLink(){
     const { error } = await supabaseClient
         .from("links")
         .insert({
+            squad: squadAtual,
             categoria: categoriaAtual,
             nome: nome,
             url: url
@@ -843,16 +845,20 @@ function ativarTempoReal(tipo){
     }
 
     canalTempoReal = supabaseClient
-        .channel("links-" + tipo)
+        .channel("links-" + squadAtual + "-" + tipo)
         .on(
             "postgres_changes",
             {
                 event: "*",
                 schema: "public",
                 table: "links",
-                filter: "categoria=eq." + tipo
+                filter: "squad=eq." + squadAtual
             },
-            () => carregarLinks(tipo)
+            (payload) => {
+                // Verifica se a mudanca e da categoria que esta sendo visualizada
+                const cat = (payload.new && payload.new.categoria) || (payload.old && payload.old.categoria);
+                if (cat === tipo) carregarLinks(tipo);
+            }
         )
         .subscribe();
 }
