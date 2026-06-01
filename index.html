@@ -663,6 +663,17 @@ header{
 .cards.editando-cards .card-novo{ display:flex; }
 .card-novo:hover{ background:rgba(255,255,255,0.14); }
 
+.form-card{ display:flex; flex-direction:column; gap:8px; }
+.form-card label{ font-size:13px; font-weight:600; color:#334155; margin-top:6px; }
+.form-card input[type=text]{
+    padding:12px 14px; border:1px solid #cdd9ec; border-radius:8px; font-size:15px; outline:none;
+}
+.form-card input[type=text]:focus{ border-color:#0b57d0; box-shadow:0 0 0 3px rgba(11,87,208,.12); }
+.card-check{ display:flex; align-items:center; gap:8px; font-weight:500; }
+.card-preview{ min-height:72px; display:flex; align-items:center; }
+.card-preview img{ max-width:72px; max-height:72px; object-fit:contain; }
+.card-preview img:not([src]){ display:none; }
+
 @media (prefers-reduced-motion: reduce){
     *,
     *::before,
@@ -754,6 +765,33 @@ header{
 
 </div>
 
+<!-- Modal de criacao/edicao de card -->
+<div class="modal" id="modalCard">
+    <div class="modal-content" style="width:460px">
+        <div class="modal-header">
+            <h2 id="tituloModalCard">Novo card</h2>
+            <button type="button" class="fechar" onclick="fecharModalCard()" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-card">
+                <label>Nome do card</label>
+                <input type="text" id="cardTitulo" placeholder="Ex.: Documentos">
+
+                <label class="card-check">
+                    <input type="checkbox" id="cardBusca"> Mostrar barra de busca neste card
+                </label>
+
+                <label>Imagem do icone</label>
+                <input type="file" id="cardImagem" accept="image/*">
+                <div class="card-preview"><img id="cardPreview" alt=""></div>
+
+                <div id="cardErro" class="mensagem-status" style="display:none"></div>
+                <button class="btn-adicionar" id="btnSalvarCard" onclick="salvarCard()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
 let categoriaAtual = null;
@@ -763,6 +801,7 @@ let modoEdicao = false;       // controla se o modal mostra as acoes de edicao
 let linksAtuais = [];         // links carregados na categoria aberta (usado na edicao inline)
 let categoriasAtuais = [];   // categorias (cards) da squad logada, vindas do banco
 let editandoCards = false;   // modo de gestao dos cards (engrenagem)
+let cardEditId = null;        // id do card em edicao; null = criando um novo
 
 /* =========================
    MONTAR OS CARDS DE CATEGORIA
@@ -1215,6 +1254,135 @@ async function carregarCategorias(){
 // Helper: acha uma categoria carregada pelo slug.
 function categoriaPorSlug(slug){
     return categoriasAtuais.find(c => c.slug === slug) || null;
+}
+
+/* =========================
+   CRIAR / EDITAR CARD
+========================= */
+function abrirNovoCard(){
+    cardEditId = null;
+    document.getElementById("tituloModalCard").textContent = "Novo card";
+    document.getElementById("cardTitulo").value = "";
+    document.getElementById("cardBusca").checked = false;
+    document.getElementById("cardImagem").value = "";
+    document.getElementById("cardPreview").removeAttribute("src");
+    document.getElementById("cardErro").style.display = "none";
+    document.getElementById("modalCard").style.display = "flex";
+}
+
+function abrirEdicaoCard(id){
+    const cat = categoriasAtuais.find(c => c.id === id);
+    if (!cat){ return; }
+    cardEditId = id;
+    document.getElementById("tituloModalCard").textContent = "Editar card";
+    document.getElementById("cardTitulo").value = cat.titulo || "";
+    document.getElementById("cardBusca").checked = !!cat.busca;
+    document.getElementById("cardImagem").value = "";
+    const prev = document.getElementById("cardPreview");
+    if (cat.icone){ prev.src = cat.icone; } else { prev.removeAttribute("src"); }
+    document.getElementById("cardErro").style.display = "none";
+    document.getElementById("modalCard").style.display = "flex";
+}
+
+function fecharModalCard(){
+    document.getElementById("modalCard").style.display = "none";
+}
+
+function previewCard(input){
+    const img = document.getElementById("cardPreview");
+    const file = input.files && input.files[0];
+    if (!file){ img.removeAttribute("src"); return; }
+    img.src = URL.createObjectURL(file);
+}
+
+function mostrarErroCard(msg){
+    const el = document.getElementById("cardErro");
+    el.textContent = msg;
+    el.style.display = "block";
+}
+
+// Liga o preview ao seletor de arquivo (o script roda no fim do body, o elemento existe).
+document.getElementById("cardImagem").addEventListener("change", e => previewCard(e.target));
+
+// Sobe a imagem para o bucket "icones" na pasta da squad e devolve a URL publica.
+async function uploadIcone(file){
+    const ext = (file.name.split(".").pop() || "png").toLowerCase();
+    const caminho = `${squadAtual}/${Date.now()}.${ext}`;
+
+    const { error } = await supabaseClient
+        .storage.from("icones")
+        .upload(caminho, file, { upsert: true });
+
+    if (error){ throw error; }
+
+    const { data } = supabaseClient.storage.from("icones").getPublicUrl(caminho);
+    return data.publicUrl;
+}
+
+async function salvarCard(){
+    const titulo = document.getElementById("cardTitulo").value.trim();
+    const busca = document.getElementById("cardBusca").checked;
+    const fileInput = document.getElementById("cardImagem");
+    const file = fileInput.files && fileInput.files[0];
+
+    if (!titulo){ mostrarErroCard("Digite o nome do card."); return; }
+
+    const btn = document.getElementById("btnSalvarCard");
+    btn.disabled = true;
+
+    try {
+        let iconeUrl = null;
+        if (file){
+            if (!file.type.startsWith("image/")){ throw new Error("Selecione um arquivo de imagem."); }
+            if (file.size > 1024 * 1024){ throw new Error("Imagem muito grande (max 1 MB)."); }
+            iconeUrl = await uploadIcone(file);
+        }
+
+        if (cardEditId === null){
+            const ordem = categoriasAtuais.length
+                ? Math.max(...categoriasAtuais.map(c => c.ordem)) + 1 : 1;
+            const { error } = await supabaseClient.from("categorias").insert({
+                squad: squadAtual,
+                slug: "c" + Date.now(),
+                titulo: titulo,
+                busca: busca,
+                ordem: ordem,
+                ativo: true,
+                icone: iconeUrl || "https://cdn-icons-png.flaticon.com/512/1828/1828911.png"
+            });
+            if (error){ throw error; }
+        } else {
+            const update = { titulo: titulo, busca: busca };
+            if (iconeUrl){ update.icone = iconeUrl; }
+            const { error } = await supabaseClient.from("categorias").update(update).eq("id", cardEditId);
+            if (error){ throw error; }
+        }
+
+        fecharModalCard();
+        await carregarCategorias();
+    } catch (e){
+        mostrarErroCard("Erro ao salvar: " + e.message);
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+async function excluirCard(id){
+    const cat = categoriasAtuais.find(c => c.id === id);
+    if (!cat){ return; }
+
+    const ok = confirm(`Excluir o card "${cat.titulo}"? Isso tambem apaga todos os links dentro dele.`);
+    if (!ok){ return; }
+
+    const del1 = await supabaseClient
+        .from("links").delete()
+        .eq("squad", squadAtual).eq("categoria", cat.slug);
+    if (del1.error){ alert("Erro ao excluir os links do card: " + del1.error.message); return; }
+
+    const del2 = await supabaseClient.from("categorias").delete().eq("id", id);
+    if (del2.error){ alert("Erro ao excluir o card: " + del2.error.message); return; }
+
+    await carregarCategorias();
 }
 
 /* =========================
