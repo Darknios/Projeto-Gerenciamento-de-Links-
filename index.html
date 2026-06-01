@@ -9,6 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+<!-- Favicon: logo da GESIG. -->
+<link rel="icon" type="image/png" href="img/logo-gesig.png">
+
 <style>
 
 /* =========================
@@ -105,6 +108,15 @@ header{
 }
 .btn-voltar:hover{ background:#eaf1fb; transform:translateX(-2px); }
 
+/* Botao de sair (logout). */
+.btn-sair{
+    display:inline-flex; align-items:center; gap:6px;
+    color:#c0392b; border:1px solid #e3b3ad; border-radius:999px;
+    padding:8px 15px; font-size:13px; font-weight:600;
+    background:#fff; cursor:pointer; transition:.2s ease; white-space:nowrap;
+}
+.btn-sair:hover{ background:#fdeceb; transform:translateX(2px); }
+
 /* =========================
    LOGOS
 ========================= */
@@ -127,8 +139,8 @@ header{
     .logo-sad{ height:42px; }
     .logo-gesig{ height:58px; }
     /* No celular, o botao fica so com a seta para economizar espaco. */
-    .btn-voltar span{ display:none; }
-    .btn-voltar{ padding:8px; }
+    .btn-voltar span, .btn-sair span{ display:none; }
+    .btn-voltar, .btn-sair{ padding:8px; }
 }
 
 /* =========================
@@ -796,8 +808,17 @@ header{
              onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
     </div>
 
-    <!-- Zona direita: vazia, so para manter as logos centralizadas. -->
-    <div class="header-lado"></div>
+    <!-- Zona direita: botao de sair (encerra a sessao da squad). -->
+    <div class="header-lado">
+        <button type="button" class="btn-sair" onclick="sairDaSquad()" aria-label="Sair">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <path d="M16 17l5-5-5-5"/>
+                <path d="M21 12H9"/>
+            </svg>
+            <span>Sair</span>
+        </button>
+    </div>
 
 </header>
 
@@ -1500,6 +1521,14 @@ async function excluirCard(id){
 }
 
 /* =========================
+   SAIR (LOGOUT)
+========================= */
+async function sairDaSquad(){
+    await supabaseClient.auth.signOut();
+    window.location.href = "Pagina_inicial.html";
+}
+
+/* =========================
    INICIALIZACAO + PROTECAO DE ACESSO
 ========================= */
 async function iniciarPagina(){
@@ -1525,6 +1554,9 @@ async function iniciarPagina(){
   if (tituloSquad){
     tituloSquad.textContent = "SQUAD - " + nome.toUpperCase();
   }
+
+  // Titulo da aba do navegador com o nome da squad.
+  document.title = nome + " - Central de Links";
 
   if (error || !squad){
     document.getElementById("cardsCategorias").innerHTML =
