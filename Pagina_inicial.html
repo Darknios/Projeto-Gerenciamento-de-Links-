@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PE Integrado - Escolha a sua Squad</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+
+    .page { background: #1a4fa0; min-height: 100vh; }
+
+    /* HEADER */
+    .header {
+      background: #fff;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-logo-left { display: flex; align-items: center; gap: 8px; }
+
+    .header-center { display: flex; flex-direction: column; align-items: center; }
+
+    .pe-integrado-logo { display: flex; align-items: center; gap: 6px; }
+    .pe-integrado-logo div {
+      font-size: 22px;
+      color: #2176b8;
+      font-weight: 400;
+      font-family: Arial;
+    }
+    .pe-integrado-logo div span { font-weight: 700; }
+
+    .header-logo-right { display: flex; align-items: center; gap: 8px; }
+
+    /* TÍTULO */
+    .title-section { padding: 22px 0 18px; text-align: center; }
+    .title-section h1 {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* GRID DE CARDS */
+    .cards-area { padding: 0 20px 30px; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* CARD */
+    .squad-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 14px 14px 12px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 180px;
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #555;
+    }
+
+    .dot-green {
+      width: 8px;
+      height: 8px;
+      background: #27ae60;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .card-top { display: flex; align-items: flex-start; gap: 10px; }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .emoji-icon { font-size: 42px; line-height: 1; }
+
+    .card-info { flex: 1; }
+
+    .card-label {
+      font-size: 10px;
+      color: #666;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+
+    .card-name {
+      font-size: 14px;
+      font-weight: 900;
+      color: #1a1a1a;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.3;
+      margin-top: 4px;
+    }
+
+    .blue-line {
+      height: 3px;
+      background: #2176b8;
+      border-radius: 2px;
+      width: 60px;
+      position: absolute;
+      bottom: 40px;
+      left: 14px;
+    }
+
+    .card-bottom {
+      margin-top: auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .btn-select {
+      background: #fff;
+      border: 1px solid #1a4fa0;
+      color: #1a4fa0;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-select:hover { background: #eaf1fb; }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <!-- Logo esquerda -->
+    <div class="header-logo-left">
+      <svg width="38" height="46" viewBox="0 0 38 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 1L37 10V26C37 36 28 43 19 45C10 43 1 36 1 26V10L19 1Z"
+              fill="#1a4fa0" stroke="#1a4fa0" stroke-width="1.5"/>
+        <path d="M19 6L33 13V26C33 34 26.5 40 19 42C11.5 40 5 34 5 26V13L19 6Z" fill="#fff"/>
+        <text x="19" y="29" text-anchor="middle" font-size="13" font-weight="900"
+              fill="#c8a000" font-family="Arial">PE</text>
+      </svg>
+      <div>
+        <div style="font-size:7px;color:#888;letter-spacing:1px;text-transform:uppercase;">GOVERNO</div>
+        <div style="line-height:1.05;">
+          <span style="font-size:20px;font-weight:900;color:#c8a000;">PER</span>
+        </div>
+        <div style="line-height:1.05;">
+          <span style="font-size:20px;font-weight:900;color:#2176b8;">NAM</span>
+        </div>
+        <div style="line-height:1.05;">
+          <span style="font-size:20px;font-weight:900;color:#2176b8;">BUCO</span>
+        </div>
+        <div style="font-size:7px;color:#888;letter-spacing:1px;text-transform:uppercase;">ESTADO DE ALIANÇA</div>
+      </div>
+    </div>
+
+    <!-- Logo centro -->
+    <div class="header-center">
+      <div class="pe-integrado-logo">
+        <svg width="40" height="44" viewBox="0 0 40 44" fill="none">
+          <ellipse cx="20" cy="22" rx="10" ry="18" stroke="#2176b8" stroke-width="2.5"
+                   fill="none" transform="rotate(-30 20 22)"/>
+          <ellipse cx="20" cy="22" rx="10" ry="18" stroke="#27ae60" stroke-width="2.5"
+                   fill="none" transform="rotate(30 20 22)"/>
+          <circle cx="20" cy="22" r="3" fill="#2176b8"/>
+        </svg>
+        <div>PE<span>integrado</span></div>
+      </div>
+    </div>
+
+    <!-- Logo direita -->
+    <div class="header-logo-right">
+      <div style="font-size:11px;font-weight:700;color:#555;letter-spacing:1px;">credencia</div>
+      <div style="display:flex;gap:2px;align-items:center;">
+        <div style="font-size:20px;font-weight:900;color:#1a4fa0;">PE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;width:28px;height:28px;">
+          <div style="background:#c0392b;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
+          <div style="background:#27ae60;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
+          <div style="background:#2176b8;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
+          <div style="background:#f39c12;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TÍTULO -->
+  <div class="title-section">
+    <h1>Escolha a sua Squad</h1>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-area">
+    <div class="cards-grid">
+
+      <!-- Squad 1 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon"><span class="emoji-icon">🪔</span></div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Ariano Suassuna</div>
+          </div>
+        </div>
+        <div class="card-desc">Gestão de Conteúdo e Cultura</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 2 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon"><span class="emoji-icon">🪗</span></div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Luis Gonzaga</div>
+          </div>
+        </div>
+        <div class="card-desc">Integração e Redes</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 3 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <path d="M10 16 Q26 4 42 16" stroke="#2176b8" stroke-width="2" fill="none"/>
+              <text x="14" y="36" font-size="18" fill="#2176b8"
+                    font-family="monospace" font-weight="bold">&lt;/&gt;</text>
+              <path d="M6 40 Q26 50 46 40" stroke="#1a4fa0" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Clarice Lispector</div>
+          </div>
+        </div>
+        <div class="card-desc">Inovação Literária e Desenvolvimento</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 4 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon"><span class="emoji-icon">🏙️</span></div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Manuel Bandeira</div>
+          </div>
+        </div>
+        <div class="card-desc">Infraestrutura e Planejamento</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 5 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <circle cx="26" cy="20" r="10" fill="none" stroke="#c0392b" stroke-width="2"/>
+              <circle cx="26" cy="20" r="4" fill="#c0392b"/>
+              <line x1="16" y1="20" x2="8" y2="26" stroke="#c0392b" stroke-width="2"/>
+              <line x1="36" y1="20" x2="44" y2="26" stroke="#c0392b" stroke-width="2"/>
+              <line x1="26" y1="30" x2="22" y2="44" stroke="#c0392b" stroke-width="2"/>
+              <line x1="26" y1="30" x2="30" y2="44" stroke="#c0392b" stroke-width="2"/>
+              <circle cx="8" cy="28" r="3" fill="#c0392b"/>
+              <circle cx="44" cy="28" r="3" fill="#c0392b"/>
+            </svg>
+          </div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Frei Caneca</div>
+          </div>
+        </div>
+        <div class="card-desc">Transparência e Dados Abertos</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 6 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon"><span class="emoji-icon">🌵</span></div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">João Cabral</div>
+          </div>
+        </div>
+        <div class="card-desc">Eficiência Hídrica e Ambiental</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 7 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon"><span class="emoji-icon">🦀</span></div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Chico Science</div>
+          </div>
+        </div>
+        <div class="card-desc">Educação Tecnológica e Manguebeat Digital</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+      <!-- Squad 8 -->
+      <div class="squad-card">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-top">
+          <div class="card-icon"><span class="emoji-icon">🎤</span></div>
+          <div class="card-info">
+            <div class="card-label">Squad</div>
+            <div class="card-name">Clementina de Jesus</div>
+          </div>
+        </div>
+        <div class="card-desc">Inclusão Social e Parcerias</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
