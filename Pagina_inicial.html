@@ -24,7 +24,30 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .page { animation: none; }
+      .page::before, .page::after { animation: none; }
     }
+
+    /* Orbes de luz que flutuam ao fundo, dando profundidade e movimento. */
+    .page { position: relative; overflow: hidden; }
+    .page::before, .page::after {
+      content: ""; position: fixed; border-radius: 50%; filter: blur(70px);
+      pointer-events: none; z-index: 0; opacity: 0.45;
+    }
+    .page::before {
+      width: 42vw; height: 42vw; max-width: 480px; max-height: 480px;
+      background: radial-gradient(circle, #4f9bff, transparent 70%);
+      top: -8vw; left: -6vw; animation: flutuaOrbe1 18s ease-in-out infinite;
+    }
+    .page::after {
+      width: 50vw; height: 50vw; max-width: 560px; max-height: 560px;
+      background: radial-gradient(circle, #22d3ee, transparent 70%);
+      bottom: -12vw; right: -8vw; animation: flutuaOrbe2 22s ease-in-out infinite;
+    }
+    @keyframes flutuaOrbe1{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(40px,34px); } }
+    @keyframes flutuaOrbe2{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(-46px,-30px); } }
+
+    /* O conteudo fica acima dos orbes. */
+    .header, .title-section, .cards-area { position: relative; z-index: 1; }
 
     /* HEADER */
     /* Cabecalho com altura padronizada e as duas logos centralizadas. */
@@ -194,12 +217,21 @@
     }
 
     /* Hover suave nos cards da grade de squads, com borda luminosa */
-    .squad-card{ transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease; }
+    .squad-card{ transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease; overflow:hidden; }
     .squad-card:hover{
       transform:translateY(-8px);
       box-shadow:0 22px 48px rgba(8,25,60,.34), 0 0 0 1px rgba(255,255,255,.35);
       border-color: rgba(255,255,255,0.85);
     }
+
+    /* Brilho diagonal que varre o card ao passar o mouse */
+    .squad-card::after{
+      content:""; position:absolute; top:0; left:-120%;
+      width:70%; height:100%;
+      background:linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+      transform:skewX(-20deg); transition:left .65s ease; pointer-events:none;
+    }
+    .squad-card:hover::after{ left:140%; }
 
     /* Hover do botao de selecionar */
     .btn-select{ transition:transform .2s ease, box-shadow .2s ease, filter .2s ease; }

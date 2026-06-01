@@ -42,6 +42,38 @@ body{
 }
 
 /* =========================
+   ORBES DE LUZ AO FUNDO
+   Dois circulos desfocados que flutuam devagar, dando profundidade.
+========================= */
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    border-radius:50%;
+    filter:blur(70px);
+    pointer-events:none;
+    z-index:0;
+    opacity:0.45;
+}
+body::before{
+    width:42vw; height:42vw; max-width:480px; max-height:480px;
+    background:radial-gradient(circle, #4f9bff, transparent 70%);
+    top:-8vw; left:-6vw;
+    animation:flutuaOrbe1 18s ease-in-out infinite;
+}
+body::after{
+    width:50vw; height:50vw; max-width:560px; max-height:560px;
+    background:radial-gradient(circle, #22d3ee, transparent 70%);
+    bottom:-12vw; right:-8vw;
+    animation:flutuaOrbe2 22s ease-in-out infinite;
+}
+@keyframes flutuaOrbe1{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(40px,34px); } }
+@keyframes flutuaOrbe2{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(-46px,-30px); } }
+
+/* O conteudo fica acima dos orbes. */
+header, .squad-title, .acoes-pagina, .container{ position:relative; z-index:1; }
+
+/* =========================
    HEADER
    Cabecalho com altura padronizada e as duas logos centralizadas.
 ========================= */
@@ -562,6 +594,15 @@ header{
   opacity:0; transition:opacity .3s ease; pointer-events:none;
 }
 .card:hover::after{ opacity:1; }
+
+/* Brilho diagonal que varre o card ao passar o mouse */
+.card::before{
+  content:""; position:absolute; top:0; left:-120%;
+  width:70%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform:skewX(-20deg); transition:left .65s ease; pointer-events:none; z-index:2;
+}
+.card:hover::before{ left:140%; }
 
 /* Transicao de saida animada do link ao ser excluido */
 .link-item{ transition:opacity .25s ease, transform .25s ease; }
