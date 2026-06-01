@@ -1,8 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1a4fa0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Guitarra: homenagem a Chico Science, musico -->
-  <path d="M47 11l6 6"/>
-  <path d="M44 14l6 6"/>
-  <path d="M50 14l-9 9"/>
-  <path d="M41 23c4 4 4 9 1 13.5C39 41 33 44 27 43c-4-.7-7-3.4-7.6-7.4C18.7 30 22 25 27 22c5-3 10-3 14 1z"/>
-  <circle cx="30" cy="33" r="4.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+  <title id="t">Squad Chico Science</title>
+  <desc id="d">Caranguejo, simbolizando o movimento manguebeat e a cultura do mangue.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7AB829"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <!-- Patas -->
+  <g fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round">
+    <path d="M168 308 C138 318 118 338 104 366"/>
+    <path d="M172 328 C142 342 124 366 116 396"/>
+    <path d="M178 346 C150 364 136 392 132 420"/>
+    <path d="M344 308 C374 318 394 338 408 366"/>
+    <path d="M340 328 C370 342 388 366 396 396"/>
+    <path d="M334 346 C362 364 376 392 380 420"/>
+  </g>
+  <!-- Bracos das garras -->
+  <g fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round">
+    <path d="M170 282 C134 274 112 250 102 220"/>
+    <path d="M342 282 C378 274 400 250 410 220"/>
+  </g>
+  <!-- Garras (com a boca vazada mostrando o degrade) -->
+  <path fill="#fff" fill-rule="evenodd" d="
+    M96 184 a28 28 0 1 0 0 56 a28 28 0 1 0 0 -56 Z M96 212 L70 198 L70 226 Z"/>
+  <path fill="#fff" fill-rule="evenodd" d="
+    M416 184 a28 28 0 1 0 0 56 a28 28 0 1 0 0 -56 Z M416 212 L442 198 L442 226 Z"/>
+  <!-- Olhos -->
+  <g fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round">
+    <path d="M236 244 L230 204"/>
+    <path d="M276 244 L282 204"/>
+  </g>
+  <circle cx="228" cy="196" r="14" fill="#fff"/>
+  <circle cx="284" cy="196" r="14" fill="#fff"/>
+  <circle cx="228" cy="196" r="6" fill="url(#g)"/>
+  <circle cx="284" cy="196" r="6" fill="url(#g)"/>
+  <!-- Carapaca -->
+  <ellipse cx="256" cy="300" rx="100" ry="62" fill="#fff"/>
 </svg>

@@ -1,11 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1a4fa0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Mascaras de teatro: homenagem a Ariano Suassuna, dramaturgo -->
-  <path d="M14 16h18v12c0 6-4 11-9 11s-9-5-9-11V16z"/>
-  <path d="M19 24c1.2-1 2.8-1 4 0"/>
-  <path d="M27 24c-1.2-1-2.8-1-4 0" transform="translate(6 0)"/>
-  <path d="M19 33c2 2 5 2 7 0"/>
-  <path d="M34 25h18v10c0 6-4 11-9 11s-9-5-9-11V25z"/>
-  <path d="M39 33c1.2 1.2 2.8 1.2 4 0"/>
-  <path d="M47 33c1.2 1.2 2.8 1.2 4 0"/>
-  <path d="M40 41c2-1.6 5-1.6 7 0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+  <title id="t">Squad Ariano Suassuna</title>
+  <desc id="d">Sol armorial radiante, simbolizando cultura, arte e identidade nordestina.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7AB829"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <g stroke="#fff" stroke-width="24" stroke-linecap="round">
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(0 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(45 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(90 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(135 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(180 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(225 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(270 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(315 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(22.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(67.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(112.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(157.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(202.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(247.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(292.5 256 256)"/>
+    <line x1="256" y1="104" x2="256" y2="150" transform="rotate(337.5 256 256)"/>
+  </g>
+  <circle cx="256" cy="256" r="80" fill="#fff"/>
 </svg>

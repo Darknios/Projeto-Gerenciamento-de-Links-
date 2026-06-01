@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+  <title id="t">Squad Implantacao</title>
+  <desc id="d">Foguete em lancamento, simbolizando implantacao, ativacao e entrega.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7AB829"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <!-- Corpo do foguete (janela vazada mostra o degrade) -->
+  <path fill="#fff" fill-rule="evenodd" d="
+    M256 108 C324 158 362 244 362 326 c0 42 -12 82 -34 118 H184 c-22 -36 -34 -76 -34 -118 0 -82 38 -168 106 -218 Z
+    M216 268 a40 40 0 1 0 80 0 a40 40 0 1 0 -80 0 Z"/>
+  <!-- Aletas -->
+  <path fill="#fff" d="M188 372 C156 386 134 416 128 458 C168 458 198 444 222 418 Z"/>
+  <path fill="#fff" d="M324 372 C356 386 378 416 384 458 C344 458 314 444 290 418 Z"/>
+  <!-- Propulsao -->
+  <g stroke="#fff" stroke-width="16" stroke-linecap="round">
+    <line x1="256" y1="452" x2="256" y2="494"/>
+    <line x1="222" y1="452" x2="212" y2="486"/>
+    <line x1="290" y1="452" x2="300" y2="486"/>
+  </g>
+</svg>

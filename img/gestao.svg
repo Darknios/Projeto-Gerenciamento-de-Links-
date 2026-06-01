@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+  <title id="t">Squad Gestao</title>
+  <desc id="d">Engrenagens, simbolizando gestao, processos e funcionamento integrado.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7AB829"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <!-- Engrenagem maior -->
+  <g fill="#fff">
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(0 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(36 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(72 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(108 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(144 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(180 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(216 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(252 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(288 216 224)"/>
+    <rect x="204" y="122" width="24" height="46" rx="6" transform="rotate(324 216 224)"/>
+  </g>
+  <circle cx="216" cy="224" r="70" fill="#fff"/>
+  <circle cx="216" cy="224" r="28" fill="url(#g)"/>
+  <!-- Engrenagem menor -->
+  <g fill="#fff">
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(0 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(45 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(90 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(135 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(180 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(225 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(270 340 344)"/>
+    <rect x="330" y="276" width="20" height="40" rx="5" transform="rotate(315 340 344)"/>
+  </g>
+  <circle cx="340" cy="344" r="52" fill="#fff"/>
+  <circle cx="340" cy="344" r="20" fill="url(#g)"/>
+</svg>

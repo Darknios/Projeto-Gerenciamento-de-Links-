@@ -1,4 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#1a4fa0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Chave de boca: squad HOTFIX, correcoes rapidas -->
-  <path d="M43 16a8 8 0 0 0-10.6 9.6L16 42l6 6 16.4-16.4A8 8 0 0 0 48 21l-5 5-5-5 5-5z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+  <title id="t">Squad HOTFIX</title>
+  <desc id="d">Chave de boca, simbolizando correcao rapida, manutencao e confiabilidade.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7AB829"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <line x1="190" y1="348" x2="332" y2="206" stroke="#fff" stroke-width="40" stroke-linecap="round"/>
+  <path fill="#fff" fill-rule="evenodd" d="M304 186 a46 46 0 1 0 92 0 a46 46 0 1 0 -92 0 Z M326 186 a24 24 0 1 0 48 0 a24 24 0 1 0 -48 0 Z"/>
+  <path fill="#fff" fill-rule="evenodd" d="M120 372 a42 42 0 1 0 84 0 a42 42 0 1 0 -84 0 Z M141 372 a21 21 0 1 0 42 0 a21 21 0 1 0 -42 0 Z"/>
 </svg>
