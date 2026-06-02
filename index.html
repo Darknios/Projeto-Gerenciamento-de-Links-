@@ -1579,7 +1579,7 @@ async function excluirCard(id){
 ========================= */
 async function sairDaSquad(){
     await supabaseClient.auth.signOut();
-    window.location.href = "Pagina_inicial.html";
+    window.location.href = "/";
 }
 
 /* =========================
@@ -1590,7 +1590,7 @@ async function iniciarPagina(){
 
   // Sem login, volta para a tela de selecao.
   if (!session){
-    window.location.href = "Pagina_inicial.html";
+    window.location.href = "/";
     return;
   }
 

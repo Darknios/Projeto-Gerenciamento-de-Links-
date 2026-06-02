@@ -444,7 +444,7 @@
       senhaEl.select();
       return;
     }
-    window.location.href = "index.html";
+    window.location.href = "/links";
   }
 
   btnEntrar.addEventListener("click", entrar);
@@ -455,7 +455,7 @@
   async function iniciar(){
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session){
-      window.location.href = "index.html";
+      window.location.href = "/links";
       return;
     }
     montarCardsDasSquads();
