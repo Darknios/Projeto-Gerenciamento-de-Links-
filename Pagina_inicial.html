@@ -450,8 +450,17 @@
   btnEntrar.addEventListener("click", entrar);
   senhaEl.addEventListener("keyup", e => { if (e.key === "Enter") entrar(); });
 
-  // Carrega as squads assim que a pagina abre.
-  montarCardsDasSquads();
+  // Se ja existe uma sessao ativa, pula a selecao e vai direto pro painel.
+  // Senao, carrega os cards das squads para o login.
+  async function iniciar(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session){
+      window.location.href = "index.html";
+      return;
+    }
+    montarCardsDasSquads();
+  }
+  iniciar();
 </script>
 </body>
 </html>

@@ -23,4 +23,13 @@ function squadDoEmail(email) {
 }
 
 // Cliente Supabase unico (o SDK e carregado via <script> antes deste arquivo).
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Login persistente: a sessao fica salva no localStorage e o token e renovado
+// sozinho, entao o colaborador continua logado mesmo fechando e reabrindo o
+// navegador (ate dar Sair ou a sessao expirar no Supabase).
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    storage: window.localStorage,
+  },
+});
