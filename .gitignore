@@ -12,3 +12,6 @@ desktop.ini
 *.swo
 .vscode/
 .idea/
+
+# Guia de setup do Supabase (ja configurado; fica so local)
+SETUP.md
