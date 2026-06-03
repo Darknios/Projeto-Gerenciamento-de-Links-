@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>404 - Portal PE Integrado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon-gesig.svg">
+<link rel="icon" type="image/png" href="img/logo-gesig.png">
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',Arial,Helvetica,sans-serif; }
+body{
+    background:linear-gradient(135deg,#001f6b,#003097,#0048d6,#005eff,#0a4fd6);
+    background-size:320% 320%;
+    animation:fundoAnimado 20s ease infinite;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+}
+@keyframes fundoAnimado{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+.container{
+    text-align:center;
+    padding:2rem;
+}
+.numero{
+    font-size:clamp(6rem,20vw,10rem);
+    font-weight:900;
+    line-height:1;
+    opacity:.15;
+    letter-spacing:-4px;
+}
+.titulo{
+    font-size:clamp(1.4rem,4vw,2rem);
+    font-weight:700;
+    margin-top:.5rem;
+}
+.subtitulo{
+    font-size:1rem;
+    font-weight:400;
+    opacity:.75;
+    margin-top:.5rem;
+}
+.btn{
+    display:inline-block;
+    margin-top:2rem;
+    padding:.75rem 2rem;
+    background:#fff;
+    color:#003097;
+    font-weight:600;
+    font-size:.95rem;
+    border-radius:999px;
+    text-decoration:none;
+    transition:transform .2s,opacity .2s;
+}
+.btn:hover{ transform:scale(1.04); opacity:.9; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="numero">404</div>
+    <div class="titulo">Pagina nao encontrada</div>
+    <div class="subtitulo">O endereco que voce acessou nao existe.</div>
+    <a class="btn" href="/">Voltar ao inicio</a>
+</div>
+</body>
+</html>
