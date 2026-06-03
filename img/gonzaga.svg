@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
-  <title id="t">Squad Luiz Gonzaga</title>
-  <desc id="d">Sanfona, simbolizando o baiao, o forro e a musica nordestina.</desc>
+  <title id="t">Squad Gonzaga</title>
+  <desc id="d">Bandeira festiva, homenagem a Luiz Gonzaga.</desc>
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#7AB829"/>
@@ -8,21 +8,15 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="120" fill="url(#g)"/>
-  <!-- Caixa esquerda (baixos) -->
-  <rect x="104" y="168" width="74" height="176" rx="18" fill="#fff"/>
-  <circle cx="141" cy="206" r="9" fill="url(#g)"/>
-  <circle cx="141" cy="238" r="9" fill="url(#g)"/>
-  <circle cx="141" cy="270" r="9" fill="url(#g)"/>
-  <circle cx="141" cy="302" r="9" fill="url(#g)"/>
-  <!-- Caixa direita (teclado) -->
-  <rect x="334" y="168" width="74" height="176" rx="18" fill="#fff"/>
-  <g fill="url(#g)">
-    <rect x="356" y="198" width="30" height="12" rx="6"/>
-    <rect x="356" y="226" width="30" height="12" rx="6"/>
-    <rect x="356" y="254" width="30" height="12" rx="6"/>
-    <rect x="356" y="282" width="30" height="12" rx="6"/>
+  <g transform="translate(89.5 89.5) scale(0.65)" fill="#fff">
+    <path d="M381.879,87.919l-5.905,22.04l-23.473-31.298l-47.949,11.987l-48.57-36.428l-48.57,36.427l-47.949-11.987
+      l-23.309,31.081l-6.102-22.775L0,121.814l90.022,335.964l130.051-34.847l-5.186-19.354l41.096-8.22l41.305,8.261l-5.43,20.265
+      l130.121,33.766L512,121.684L381.879,87.919z M82.838,192.542l-8.712-32.512l37.932-10.164l8.712,32.512L82.838,192.542z
+      M91.55,225.056l37.932-10.164l8.711,32.513l-37.931,10.164L91.55,225.056z M108.973,290.08l37.931-10.164l8.711,32.513
+      l-37.93,10.164L108.973,290.08z M135.109,387.62l-8.712-32.512l37.931-10.164l8.712,32.512L135.109,387.62z
+      M206.156,370.998l-58.927-219.924l25.754-34.338l23.333,5.833l40.386,242.32L206.156,370.998z M275.262,364.889l40.386-242.32
+      l23.334-5.833l25.917,34.555L306.017,371.04L275.262,364.889z M387.695,390.523l-32.512-8.711l8.711-32.513l32.513,8.711
+      L387.695,390.523z M405.118,325.498l-32.513-8.712l8.711-32.512l32.513,8.711L405.118,325.498z M422.542,260.47l-32.513-8.71
+      l8.711-32.513l32.513,8.711L422.542,260.47z M407.452,186.735l8.711-32.513l32.513,8.711l-8.711,32.512L407.452,186.735z"/>
   </g>
-  <!-- Fole (sanfonado) -->
-  <polyline points="178,206 200,318 222,206 244,318 268,206 290,318 312,206 334,318"
-            fill="none" stroke="#fff" stroke-width="16" stroke-linejoin="round" stroke-linecap="round"/>
 </svg>
