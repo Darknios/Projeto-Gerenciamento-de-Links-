@@ -95,7 +95,7 @@ header{
 }
 
 /* As laterais tem o mesmo peso (flex:1) para as logos ficarem centralizadas. */
-.header-lado{ flex:1; display:flex; align-items:center; }
+.header-lado{ flex:1; display:flex; align-items:center; gap:10px; }
 .header-lado:last-child{ justify-content:flex-end; }
 .header-logos{ display:flex; align-items:center; gap:52px; }
 
@@ -107,6 +107,18 @@ header{
     background:#fff; cursor:pointer; transition:.2s ease; white-space:nowrap;
 }
 .btn-sair:hover{ background:#fdeceb; }
+
+/* Botao "Manual de uso" (fica ao lado do botao de sair). */
+.btn-manual{
+    display:inline-flex; align-items:center; gap:6px;
+    color:#0b2a5b; border:1px solid #b9c6dd; border-radius:999px;
+    padding:8px 15px; font-size:13px; font-weight:600;
+    background:#fff; cursor:pointer; transition:.2s ease; white-space:nowrap;
+    text-decoration:none;
+}
+.btn-manual:hover{ background:#eef3fb; }
+/* O icone de interrogacao so aparece no mobile (ver media query). */
+.btn-manual .icon-help{ display:none; }
 
 /* Toasts (mensagens rapidas no canto inferior direito). */
 .toast-container{
@@ -145,9 +157,14 @@ header{
     .header-logos{ gap:16px; }
     .logo-sad{ height:42px; }
     .logo-gesig{ height:58px; }
-    /* No celular, o botao fica so com a seta para economizar espaco. */
+    /* No celular, os botoes ficam so com o icone para economizar espaco. */
     .btn-sair span{ display:none; }
     .btn-sair{ padding:8px; }
+    /* No mobile o "Manual de uso" vira so um icone de interrogacao. */
+    .btn-manual span{ display:none; }
+    .btn-manual .icon-book{ display:none; }
+    .btn-manual .icon-help{ display:inline-block; }
+    .btn-manual{ padding:8px; }
 }
 
 /* =========================
@@ -738,6 +755,12 @@ header{
 .btn-editar-cards:hover{ background:rgba(255,255,255,0.20); }
 .btn-editar-cards.ativo{ background:#f2c94c; color:#1f2937; border-color:#f2c94c; }
 
+/* No mobile a margem superior negativa puxava o botao para cima do titulo.
+   Esta regra fica depois da base de propósito para vencer na cascata. */
+@media(max-width:560px){
+    .acoes-pagina{ margin:6px 0 20px; }
+}
+
 /* No modo edicao de cards o grid mostra cards inativos esmaecidos. */
 .cards.editando-cards .card.inativo{ opacity:.45; }
 
@@ -823,6 +846,19 @@ header{
             </svg>
             <span>Sair</span>
         </button>
+        <!-- Botao de manual de uso (abre o material de apoio em nova aba). -->
+        <a class="btn-manual" href="https://drive.expresso.pe.gov.br/s/qg6aUZLVmeZoBBi" target="_blank" rel="noopener" aria-label="Manual de uso">
+            <svg class="icon-book" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            <svg class="icon-help" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <path d="M12 17h.01"/>
+            </svg>
+            <span>Manual de uso</span>
+        </a>
     </div>
 
     <!-- Centro: as duas logos. Para trocar pelas finais, coloque -->
