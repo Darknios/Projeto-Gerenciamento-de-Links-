@@ -1,0 +1,17 @@
+# Artefatos gerados pelo Superpowers (spec, plano, etc.) — não versionar
+docs/superpowers/
+.claude
+
+# Ruidos de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Guia de setup do Supabase (ja configurado; fica so local)
+SETUP.md

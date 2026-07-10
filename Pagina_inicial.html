@@ -4,65 +4,166 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PE Integrado - Escolha a sua Squad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Favicon: logo da GESIG com fundo branco (SVG self-contained); PNG como fallback. -->
+  <link rel="icon" type="image/svg+xml" href="favicon-gesig.svg">
+  <link rel="icon" type="image/png" href="img/logo-gesig.png">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif; }
 
-    .page { background: #1a4fa0; min-height: 100vh; }
+    /* Fundo com degrade azul animado que desliza suavemente. */
+    .page {
+      background: linear-gradient(150deg, #0a2a66, #16438c, #1a4fa0, #2059b8, #1c4fb0);
+      background-size: 320% 320%;
+      animation: fundoAnimado 20s ease infinite;
+      min-height: 100vh;
+    }
+    @keyframes fundoAnimado {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .page { animation: none; }
+      .page::before, .page::after { animation: none; }
+    }
+
+    /* Orbes de luz que flutuam ao fundo, dando profundidade e movimento. */
+    .page { position: relative; overflow: hidden; }
+    .page::before, .page::after {
+      content: ""; position: fixed; border-radius: 50%; filter: blur(70px);
+      pointer-events: none; z-index: 0; opacity: 0.45;
+    }
+    .page::before {
+      width: 42vw; height: 42vw; max-width: 480px; max-height: 480px;
+      background: radial-gradient(circle, #4f9bff, transparent 70%);
+      top: -8vw; left: -6vw; animation: flutuaOrbe1 18s ease-in-out infinite;
+    }
+    .page::after {
+      width: 50vw; height: 50vw; max-width: 560px; max-height: 560px;
+      background: radial-gradient(circle, #22d3ee, transparent 70%);
+      bottom: -12vw; right: -8vw; animation: flutuaOrbe2 22s ease-in-out infinite;
+    }
+    @keyframes flutuaOrbe1{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(40px,34px); } }
+    @keyframes flutuaOrbe2{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(-46px,-30px); } }
+
+    /* O conteudo fica acima dos orbes. */
+    .header, .title-section, .cards-area { position: relative; z-index: 1; }
 
     /* HEADER */
+    /* Cabecalho com altura padronizada e as duas logos centralizadas. */
     .header {
       background: #fff;
-      padding: 10px 24px;
+      min-height: 104px;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 52px;
+      box-shadow: 0 2px 12px rgba(8,25,60,0.10);
     }
 
-    .header-logo-left { display: flex; align-items: center; gap: 8px; }
+    .header-logo { object-fit: contain; transition: transform .3s ease; }
+    .header-logo:hover { transform: scale(1.04); }
 
-    .header-center { display: flex; flex-direction: column; align-items: center; }
-
-    .pe-integrado-logo { display: flex; align-items: center; gap: 6px; }
-    .pe-integrado-logo div {
-      font-size: 22px;
-      color: #2176b8;
-      font-weight: 400;
-      font-family: Arial;
+    /* Botao "Manual de uso": fica no canto superior esquerdo do header,
+       no mesmo lugar onde o botao "Sair" aparece no index. Posicionado de
+       forma absoluta para nao desalinhar as logos centralizadas. */
+    .btn-manual {
+      position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+      display: inline-flex; align-items: center; gap: 6px;
+      color: #0b2a5b; border: 1px solid #b9c6dd; border-radius: 999px;
+      padding: 8px 15px; font-size: 13px; font-weight: 600;
+      background: #fff; cursor: pointer; transition: .2s ease;
+      white-space: nowrap; text-decoration: none;
     }
-    .pe-integrado-logo div span { font-weight: 700; }
+    .btn-manual:hover { background: #eef3fb; }
+    /* O icone de interrogacao so aparece no mobile (ver media query). */
+    .btn-manual .icon-help { display: none; }
+    /* Tamanhos por logo (a GESIG e maior para equilibrar com a SAD). */
+    .logo-sad { height: 64px; }
+    .logo-gesig { height: 92px; }
 
-    .header-logo-right { display: flex; align-items: center; gap: 8px; }
+    @media (max-width: 600px) {
+      .header { gap: 24px; min-height: 84px; }
+      .logo-sad { height: 46px; }
+      .logo-gesig { height: 66px; }
+      /* No celular o botao vira so um icone de interrogacao. */
+      .btn-manual { left: 12px; padding: 8px; }
+      .btn-manual span { display: none; }
+      .btn-manual .icon-book { display: none; }
+      .btn-manual .icon-help { display: inline-block; }
+    }
 
     /* TÍTULO */
-    .title-section { padding: 22px 0 18px; text-align: center; }
+    .title-section { padding: 30px 0 22px; text-align: center; }
     .title-section h1 {
       color: #fff;
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: 2px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 3px;
       text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.30);
+      animation: tituloEntra .7s ease both;
+    }
+    @keyframes tituloEntra {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* GRID DE CARDS */
+    /* GRID DE CARDS (mesmas metricas dos cards do index) */
     .cards-area { padding: 0 20px 30px; }
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      max-width: 980px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      max-width: 1040px;
       margin: 0 auto;
     }
 
-    /* CARD */
+    /* Icone da squad (SVG vindo da pasta /img, definido na tabela squads). */
+    .squad-icon {
+      width: 66px; height: 66px; object-fit: contain;
+      transition: transform .25s ease;
+      animation: balancar 3.4s ease-in-out infinite;
+    }
+    /* Balanco leve e continuo dos icones. */
+    @keyframes balancar {
+      0%,100% { transform: rotate(-4deg); }
+      50%     { transform: rotate(4deg); }
+    }
+    .cards-grid .squad-card:nth-child(even) .squad-icon { animation-duration: 4.1s; animation-delay: .4s; }
+    .cards-grid .squad-card:nth-child(3n) .squad-icon { animation-duration: 4.5s; animation-delay: .2s; }
+    /* Ao passar o mouse no card, o icone para de balancar e da um leve zoom. */
+    .squad-card:hover .squad-icon { animation: none; transform: scale(1.12); }
+
+    /* Mensagem de carregamento/erro da lista de squads. */
+    .squads-aviso {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #eaf1fb;
+      font-size: 14px;
+      padding: 28px 0;
+    }
+
+    /* CARD - vidro fosco translucido sobre o fundo azul */
     .squad-card {
-      background: #fff;
-      border-radius: 15px;
-      padding: 14px 14px 12px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 18px;
+      padding: 26px 18px 16px;
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      min-height: 180px;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      min-height: 242px;
+      box-shadow: 0 10px 32px rgba(8,25,60,0.20);
     }
 
     .status-badge {
@@ -87,17 +188,15 @@
     .card-top { display: flex; align-items: flex-start; gap: 10px; }
 
     .card-icon {
-      width: 52px;
-      height: 52px;
-      flex-shrink: 0;
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 8px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .emoji-icon { font-size: 42px; line-height: 1; }
-
-    .card-info { flex: 1; }
 
     .card-label {
       font-size: 10px;
@@ -109,7 +208,7 @@
     }
 
     .card-name {
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 900;
       color: #1a1a1a;
       text-transform: uppercase;
@@ -117,102 +216,141 @@
     }
 
     .card-desc {
-      font-size: 11px;
+      font-size: 12px;
       color: #555;
-      line-height: 1.3;
+      line-height: 1.35;
       margin-top: 4px;
+      min-height: 16px;
     }
 
     .blue-line {
       height: 3px;
       background: #2176b8;
-      border-radius: 2px;
+      border-radius: 999px;
       width: 60px;
-      position: absolute;
-      bottom: 40px;
-      left: 14px;
+      margin: 8px auto 0;
     }
 
     .card-bottom {
       margin-top: auto;
+      padding-top: 12px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
     }
 
     .btn-select {
-      background: #fff;
-      border: 1px solid #1a4fa0;
-      color: #1a4fa0;
+      background: linear-gradient(135deg, #1a4fa0, #2176b8);
+      border: none;
+      color: #fff;
       font-size: 11px;
       font-weight: 600;
-      padding: 5px 16px;
-      border-radius: 5px;
+      letter-spacing: .3px;
+      padding: 7px 18px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.15s;
+      box-shadow: 0 6px 14px rgba(26,79,160,.28);
     }
-    .btn-select:hover { background: #eaf1fb; }
+
+    /* Hover suave nos cards da grade de squads, com borda luminosa */
+    .squad-card{ transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease; overflow:hidden; }
+    .squad-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 22px 48px rgba(8,25,60,.34), 0 0 0 1px rgba(255,255,255,.35);
+      border-color: rgba(255,255,255,0.85);
+    }
+
+    /* Brilho diagonal que varre o card ao passar o mouse */
+    .squad-card::after{
+      content:""; position:absolute; top:0; left:-120%;
+      width:70%; height:100%;
+      background:linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+      transform:skewX(-20deg); transition:left .65s ease; pointer-events:none;
+    }
+    .squad-card:hover::after{ left:140%; }
+
+    /* Hover do botao de selecionar */
+    .btn-select{ transition:transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+    .btn-select:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(26,79,160,.40); filter:brightness(1.06); }
+
+    /* MODAL DE LOGIN */
+    .login-modal{
+      position:fixed; inset:0; background:rgba(10,30,70,0.55);
+      backdrop-filter:blur(5px);
+      display:none; align-items:center; justify-content:center; z-index:999; padding:16px;
+    }
+    .login-modal.aberto{ display:flex; }
+    .login-box{
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,0.6);
+      width:380px; max-width:100%; border-radius:18px;
+      padding:26px; box-shadow:0 28px 70px rgba(10,30,70,0.45);
+      animation:loginPop .26s ease;
+    }
+    @keyframes loginPop{ from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+    .login-box h3{ color:#1a4fa0; margin-bottom:4px; font-size:20px; }
+    .login-sub{ color:#666; font-size:13px; margin-bottom:16px; }
+    .login-box input{
+      width:100%; padding:12px 14px; border:1px solid #cdd9ec; border-radius:8px;
+      font-size:15px; outline:none; transition:.2s;
+    }
+    .login-box input:focus{ border-color:#1a4fa0; box-shadow:0 0 0 3px rgba(26,79,160,.12); }
+    .login-erro{ color:#c0392b; font-size:13px; min-height:18px; margin:8px 2px 0; }
+    .login-acoes{ display:flex; gap:10px; margin-top:14px; }
+    .login-acoes button{ flex:1; padding:11px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; border:none; transition:.2s; }
+    .login-cancelar{ background:#eef2f8; color:#334155; }
+    .login-entrar{ background:linear-gradient(135deg,#1a4fa0,#2176b8); color:#fff; }
+    .login-entrar:hover{ transform:translateY(-1px); }
+    .login-entrar:disabled{ opacity:.6; cursor:wait; }
+
+    /* Animacao de entrada em cascata dos cards de squad */
+    @keyframes cardEntra{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+    .squad-card{ opacity:0; animation:cardEntra .45s ease forwards; }
+    .cards-grid .squad-card:nth-child(1){ animation-delay:.04s; }
+    .cards-grid .squad-card:nth-child(2){ animation-delay:.08s; }
+    .cards-grid .squad-card:nth-child(3){ animation-delay:.12s; }
+    .cards-grid .squad-card:nth-child(4){ animation-delay:.16s; }
+    .cards-grid .squad-card:nth-child(5){ animation-delay:.20s; }
+    .cards-grid .squad-card:nth-child(6){ animation-delay:.24s; }
+    .cards-grid .squad-card:nth-child(7){ animation-delay:.28s; }
+    .cards-grid .squad-card:nth-child(8){ animation-delay:.32s; }
+
+    /* Respeita preferencia do usuario por menos movimento */
+    @media (prefers-reduced-motion: reduce){
+      .squad-card{ animation:none; opacity:1; }
+      .title-section h1, .squad-icon{ animation:none; }
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
 </head>
 <body>
 
 <div class="page">
 
   <!-- HEADER -->
+  <!-- Logos centralizadas. Para trocar pelas finais, basta colocar os arquivos -->
+  <!-- img/logo-sad.png (esquerda) e img/logo-gesig.png (direita) na pasta /img. -->
+  <!-- Enquanto nao existirem, aparece uma logo remota de placeholder (fallback). -->
   <div class="header">
-
-    <!-- Logo esquerda -->
-    <div class="header-logo-left">
-      <svg width="38" height="46" viewBox="0 0 38 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M19 1L37 10V26C37 36 28 43 19 45C10 43 1 36 1 26V10L19 1Z"
-              fill="#1a4fa0" stroke="#1a4fa0" stroke-width="1.5"/>
-        <path d="M19 6L33 13V26C33 34 26.5 40 19 42C11.5 40 5 34 5 26V13L19 6Z" fill="#fff"/>
-        <text x="19" y="29" text-anchor="middle" font-size="13" font-weight="900"
-              fill="#c8a000" font-family="Arial">PE</text>
+    <!-- Botao de manual de uso (abre o material de apoio em nova aba). -->
+    <a class="btn-manual" href="https://drive.expresso.pe.gov.br/s/qg6aUZLVmeZoBBi" target="_blank" rel="noopener" aria-label="Manual de uso">
+      <svg class="icon-book" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
       </svg>
-      <div>
-        <div style="font-size:7px;color:#888;letter-spacing:1px;text-transform:uppercase;">GOVERNO</div>
-        <div style="line-height:1.05;">
-          <span style="font-size:20px;font-weight:900;color:#c8a000;">PER</span>
-        </div>
-        <div style="line-height:1.05;">
-          <span style="font-size:20px;font-weight:900;color:#2176b8;">NAM</span>
-        </div>
-        <div style="line-height:1.05;">
-          <span style="font-size:20px;font-weight:900;color:#2176b8;">BUCO</span>
-        </div>
-        <div style="font-size:7px;color:#888;letter-spacing:1px;text-transform:uppercase;">ESTADO DE ALIANÇA</div>
-      </div>
-    </div>
-
-    <!-- Logo centro -->
-    <div class="header-center">
-      <div class="pe-integrado-logo">
-        <svg width="40" height="44" viewBox="0 0 40 44" fill="none">
-          <ellipse cx="20" cy="22" rx="10" ry="18" stroke="#2176b8" stroke-width="2.5"
-                   fill="none" transform="rotate(-30 20 22)"/>
-          <ellipse cx="20" cy="22" rx="10" ry="18" stroke="#27ae60" stroke-width="2.5"
-                   fill="none" transform="rotate(30 20 22)"/>
-          <circle cx="20" cy="22" r="3" fill="#2176b8"/>
-        </svg>
-        <div>PE<span>integrado</span></div>
-      </div>
-    </div>
-
-    <!-- Logo direita -->
-    <div class="header-logo-right">
-      <div style="font-size:11px;font-weight:700;color:#555;letter-spacing:1px;">credencia</div>
-      <div style="display:flex;gap:2px;align-items:center;">
-        <div style="font-size:20px;font-weight:900;color:#1a4fa0;">PE</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;width:28px;height:28px;">
-          <div style="background:#c0392b;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
-          <div style="background:#27ae60;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
-          <div style="background:#2176b8;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
-          <div style="background:#f39c12;border-radius:2px;transform:rotate(45deg);width:12px;height:12px;margin:auto;"></div>
-        </div>
-      </div>
-    </div>
-
+      <svg class="icon-help" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+        <path d="M12 17h.01"/>
+      </svg>
+      <span>Manual de uso</span>
+    </a>
+    <img class="header-logo logo-sad" src="img/logo-sad.png" alt="SAD - Secretaria de Administracao"
+         onerror="this.onerror=null;this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-lMnUxIad0kJWOKMjgrBcI3Rd-Nx__tWbw&s'">
+    <img class="header-logo logo-gesig" src="img/logo-gesig.png" alt="GESIG"
+         onerror="this.onerror=null;this.src='https://www.sad.pe.gov.br/images/images/PE-Integrado.png'">
   </div>
 
   <!-- TÍTULO -->
@@ -221,150 +359,141 @@
   </div>
 
   <!-- CARDS -->
+  <!-- Os cards das squads sao montados dinamicamente a partir da tabela "squads" -->
+  <!-- do Supabase (ver montarCardsDasSquads no script ao final da pagina). -->
   <div class="cards-area">
-    <div class="cards-grid">
-
-      <!-- Squad 1 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🪔</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Ariano Suassuna</div>
-          </div>
-        </div>
-        <div class="card-desc">Gestão de Conteúdo e Cultura</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 2 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🪗</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Luis Gonzaga</div>
-          </div>
-        </div>
-        <div class="card-desc">Integração e Redes</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 3 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <path d="M10 16 Q26 4 42 16" stroke="#2176b8" stroke-width="2" fill="none"/>
-              <text x="14" y="36" font-size="18" fill="#2176b8"
-                    font-family="monospace" font-weight="bold">&lt;/&gt;</text>
-              <path d="M6 40 Q26 50 46 40" stroke="#1a4fa0" stroke-width="2" fill="none"/>
-            </svg>
-          </div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Clarice Lispector</div>
-          </div>
-        </div>
-        <div class="card-desc">Inovação Literária e Desenvolvimento</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 4 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🏙️</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Manuel Bandeira</div>
-          </div>
-        </div>
-        <div class="card-desc">Infraestrutura e Planejamento</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 5 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle cx="26" cy="20" r="10" fill="none" stroke="#c0392b" stroke-width="2"/>
-              <circle cx="26" cy="20" r="4" fill="#c0392b"/>
-              <line x1="16" y1="20" x2="8" y2="26" stroke="#c0392b" stroke-width="2"/>
-              <line x1="36" y1="20" x2="44" y2="26" stroke="#c0392b" stroke-width="2"/>
-              <line x1="26" y1="30" x2="22" y2="44" stroke="#c0392b" stroke-width="2"/>
-              <line x1="26" y1="30" x2="30" y2="44" stroke="#c0392b" stroke-width="2"/>
-              <circle cx="8" cy="28" r="3" fill="#c0392b"/>
-              <circle cx="44" cy="28" r="3" fill="#c0392b"/>
-            </svg>
-          </div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Frei Caneca</div>
-          </div>
-        </div>
-        <div class="card-desc">Transparência e Dados Abertos</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 6 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🌵</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">João Cabral</div>
-          </div>
-        </div>
-        <div class="card-desc">Eficiência Hídrica e Ambiental</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 7 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🦀</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Chico Science</div>
-          </div>
-        </div>
-        <div class="card-desc">Educação Tecnológica e Manguebeat Digital</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
-      <!-- Squad 8 -->
-      <div class="squad-card">
-        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
-        <div class="card-top">
-          <div class="card-icon"><span class="emoji-icon">🎤</span></div>
-          <div class="card-info">
-            <div class="card-label">Squad</div>
-            <div class="card-name">Clementina de Jesus</div>
-          </div>
-        </div>
-        <div class="card-desc">Inclusão Social e Parcerias</div>
-        <div class="blue-line"></div>
-        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
-      </div>
-
+    <div class="cards-grid" id="cardsGrid">
+      <div class="squads-aviso">Carregando squads...</div>
     </div>
   </div>
 </div>
 
+<!-- Modal de autenticacao da squad -->
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <h3 id="loginTitulo">Acessar squad</h3>
+    <p class="login-sub" id="loginSub"></p>
+    <input type="password" id="loginSenha" placeholder="Senha da squad" autocomplete="off">
+    <div class="login-erro" id="loginErro"></div>
+    <div class="login-acoes">
+      <button class="login-cancelar" id="loginCancelar">Cancelar</button>
+      <button class="login-entrar" id="loginEntrar">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Squad escolhida no momento (preenchida ao clicar em Selecionar).
+  let squadSelecionada = null;
+
+  const modal   = document.getElementById("loginModal");
+  const titulo  = document.getElementById("loginTitulo");
+  const sub     = document.getElementById("loginSub");
+  const senhaEl = document.getElementById("loginSenha");
+  const erroEl  = document.getElementById("loginErro");
+  const btnEntrar = document.getElementById("loginEntrar");
+  const cardsGrid = document.getElementById("cardsGrid");
+
+  // Escapa texto para uso seguro dentro de atributos HTML.
+  function escapar(texto){
+    return String(texto || "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // Monta os cards das squads lendo a tabela "squads" do Supabase.
+  async function montarCardsDasSquads(){
+    const { data, error } = await supabaseClient
+      .from("squads")
+      .select("key, nome, descricao, icone, ativo")
+      .eq("ativo", true)
+      .order("ordem", { ascending: true });
+
+    if (error){
+      cardsGrid.innerHTML = `<div class="squads-aviso">Nao foi possivel carregar as squads: ${escapar(error.message)}</div>`;
+      return;
+    }
+
+    if (!data || !data.length){
+      cardsGrid.innerHTML = `<div class="squads-aviso">Nenhuma squad cadastrada ainda.</div>`;
+      return;
+    }
+
+    cardsGrid.innerHTML = data.map(squad => `
+      <div class="squad-card" data-squad="${escapar(squad.key)}" data-nome="${escapar(squad.nome)}">
+        <div class="status-badge"><span class="dot-green"></span> Ativo</div>
+        <div class="card-icon">
+          <img class="squad-icon" src="${escapar(squad.icone)}" alt="Icone da squad ${escapar(squad.nome)}"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-label">Squad</div>
+        <div class="card-name">${escapar(squad.nome)}</div>
+        <div class="card-desc">${escapar(squad.descricao || "")}</div>
+        <div class="blue-line"></div>
+        <div class="card-bottom"><button class="btn-select">Selecionar</button></div>
+      </div>
+    `).join("");
+
+    // Religa o clique de "Selecionar" nos cards recem-criados.
+    cardsGrid.querySelectorAll(".squad-card").forEach(card => {
+      card.querySelector(".btn-select").addEventListener("click", () => abrirLogin(card));
+    });
+  }
+
+  // Abre o modal de senha para a squad do card clicado.
+  function abrirLogin(card){
+    squadSelecionada = card.getAttribute("data-squad");
+    titulo.textContent = "Acessar squad";
+    sub.textContent = card.getAttribute("data-nome") || "";
+    erroEl.textContent = "";
+    senhaEl.value = "";
+    modal.classList.add("aberto");
+    senhaEl.focus();
+  }
+
+  function fecharLogin(){ modal.classList.remove("aberto"); }
+  document.getElementById("loginCancelar").addEventListener("click", fecharLogin);
+  modal.addEventListener("click", e => { if (e.target === modal) fecharLogin(); });
+
+  // Tenta autenticar a squad com a senha digitada.
+  async function entrar(){
+    const senha = senhaEl.value.trim();
+    if (!senha){ erroEl.textContent = "Digite a senha."; return; }
+
+    btnEntrar.disabled = true;
+    erroEl.textContent = "";
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email: emailDaSquad(squadSelecionada),
+      password: senha,
+    });
+
+    btnEntrar.disabled = false;
+
+    if (error){
+      erroEl.textContent = "Senha incorreta. Tente novamente.";
+      senhaEl.select();
+      return;
+    }
+    window.location.href = "/links";
+  }
+
+  btnEntrar.addEventListener("click", entrar);
+  senhaEl.addEventListener("keyup", e => { if (e.key === "Enter") entrar(); });
+
+  // Se ja existe uma sessao ativa, pula a selecao e vai direto pro painel.
+  // Senao, carrega os cards das squads para o login.
+  async function iniciar(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session){
+      window.location.href = "/links";
+      return;
+    }
+    montarCardsDasSquads();
+  }
+  iniciar();
+</script>
 </body>
 </html>
